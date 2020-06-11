@@ -442,12 +442,100 @@ export default function Invoices() {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none" className={classes.tablecell}>
-                       {row.name}
+                       {row.acct_doc_header_id}
                       </TableCell>
-                      <TableCell align="right" className={classes.tablecell}>{row.calories}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>{row.fat}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>{row.carbs}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>{row.protein}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.company_id}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_number}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_number_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.business_code}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.create_year}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_line_number}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.doctype}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.customer_number}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.customer_number_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.fk_customer_map_id}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.customer_name}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.division}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_create_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_create_date_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.posting_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.posting_date_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.posting_id}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.due_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.due_date_norm }</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.order_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.order_date_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.invoice_id}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.invoice_id_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.baseline_create_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.invoice_date_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.total_open_amount}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.total_open_amount_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.cust_payment_terms}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.business_area}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.ship_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.ship_to}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.clearing_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.clearing_date_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.reason_code}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.isOpen}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.discount_due_date_norm}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.debit_credit_indicator}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.payment_method}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_creation_date}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.invoice_amount_doc_currency}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.document_id}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.actual_open_amount}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.paid_amount}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.dayspast_due}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.invoice_age}</TableCell>
+                      <TableCell align="right" className={classes.tablecell}>
+                        {row.disputed_amount}</TableCell>
                     </TableRow>
                   );
                 })}
