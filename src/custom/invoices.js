@@ -69,46 +69,46 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'Account Header ID', numeric: true, disablePadding: true, label: 'Account Header ID' },
+  { id: 'Account Header ID', numeric: false, disablePadding: true, label: 'Account Header ID' },
   { id: 'company_id', numeric: true, disablePadding: false, label: 'Company ID' },
   { id: 'document_number', numeric: true, disablePadding: false, label: 'Document Number' },
   { id: 'document_number_norm', numeric: true, disablePadding: false, label: 'Document Number Normalised' },
-  { id: 'business_code', numeric: false, disablePadding: false, label: 'Business Code' },
-  { id: 'create_year', numeric: false, disablePadding: false, label: 'Create Year' },
+  { id: 'business_code', numeric: true, disablePadding: false, label: 'Business Code' },
+  { id: 'create_year', numeric: true, disablePadding: false, label: 'Create Year' },
   { id: 'document_line_number', numeric: true, disablePadding: false, label: 'Document Line number' },
-  { id: 'doctype', numeric:false, disablePadding: false, label: 'Document Type' },
+  { id: 'doctype', numeric:true, disablePadding: false, label: 'Document Type' },
   { id: 'customer_number', numeric: true, disablePadding: false, label: 'Customer Number' },
   { id: 'customer_number_norm', numeric: true, disablePadding: false, label: 'Customer Number Normalised' },
   { id: 'fk_customer_map_id', numeric: true, disablePadding: false, label: 'Customer Map ID' },
-  { id: 'customer_name', numeric: false, disablePadding: false, label: 'Name Of Customer' },
-  { id: 'division', numeric: false, disablePadding: false, label: 'Division' },
-  { id: 'document_create_date', numeric: false, disablePadding: false, label: 'Document Create Date' },
-  { id: 'document_create_date_norm', numeric: false, disablePadding: false, label: 'Document Create Date Normalised' },
-  { id: 'posting_date', numeric: false, disablePadding: false, label: 'Posting date' },
-  { id: 'posting_date_norm', numeric: false, disablePadding: false, label: 'Posting Date Normalised' },
-  { id: 'posting_id', numeric: false, disablePadding: false, label: 'Posting ID' },
-  { id: 'due_date', numeric: false, disablePadding: false, label: 'Due In Date' },
-  { id: 'due_date_norm', numeric: false, disablePadding: false, label: 'Due In Date Normalised' },
-  { id: 'order_date', numeric: false, disablePadding: false, label: 'Order create Date' },
-  { id: 'order_date_norm', numeric: false, disablePadding: false, label: 'Order Create Date Normalised' },
+  { id: 'customer_name', numeric: true, disablePadding: false, label: 'Name Of Customer' },
+  { id: 'division', numeric: true, disablePadding: false, label: 'Division' },
+  { id: 'document_create_date', numeric: true, disablePadding: false, label: 'Document Create Date' },
+  { id: 'document_create_date_norm', numeric: true, disablePadding: false, label: 'Document Create Date Normalised' },
+  { id: 'posting_date', numeric: true, disablePadding: false, label: 'Posting date' },
+  { id: 'posting_date_norm', numeric: true, disablePadding: false, label: 'Posting Date Normalised' },
+  { id: 'posting_id', numeric: true, disablePadding: false, label: 'Posting ID' },
+  { id: 'due_date', numeric: true, disablePadding: false, label: 'Due In Date' },
+  { id: 'due_date_norm', numeric: true, disablePadding: false, label: 'Due In Date Normalised' },
+  { id: 'order_date', numeric: true, disablePadding: false, label: 'Order create Date' },
+  { id: 'order_date_norm', numeric: true, disablePadding: false, label: 'Order Create Date Normalised' },
   { id: 'invoice_id', numeric: true, disablePadding: false, label: 'Invoice ID' },
   { id: 'invoice_id_norm', numeric: true, disablePadding: false, label: 'Invoice ID Normalised' },
-  { id: 'baseline_create_date', numeric: false, disablePadding: false, label: 'Baseline Date' },
-  { id: 'invoice_date_norm', numeric: false, disablePadding: false, label: 'Invoice Date' },
+  { id: 'baseline_create_date', numeric: true, disablePadding: false, label: 'Baseline Date' },
+  { id: 'invoice_date_norm', numeric: true, disablePadding: false, label: 'Invoice Date' },
   { id: 'total_open_amount', numeric: true, disablePadding: false, label: 'Total Open Amount' },
   { id: 'total_open_amount_norm', numeric: true, disablePadding: false, label: 'Total Open Amount Normalised' },
   { id: 'cust_payment_terms', numeric: true, disablePadding: false, label: 'Customer Payment Terms' },
-  { id: 'business_area', numeric: false, disablePadding: false, label: 'Area of Business' },
-  { id: 'ship_date', numeric: false, disablePadding: false, label: 'Shipping Date' },
-  { id: 'ship_to', numeric: false, disablePadding: false, label: 'Shipping To' },
-  { id: 'clearing_date', numeric: false, disablePadding: false, label: 'Clear Date' },
-  { id: 'clearing_date_norm', numeric: false, disablePadding: false, label: 'Clear Date Normalised' },
-  { id: 'reason_code', numeric: false, disablePadding: false, label: 'Reason Code' },
+  { id: 'business_area', numeric: true, disablePadding: false, label: 'Area of Business' },
+  { id: 'ship_date', numeric: true, disablePadding: false, label: 'Shipping Date' },
+  { id: 'ship_to', numeric: true, disablePadding: false, label: 'Shipping To' },
+  { id: 'clearing_date', numeric: true, disablePadding: false, label: 'Clear Date' },
+  { id: 'clearing_date_norm', numeric: true, disablePadding: false, label: 'Clear Date Normalised' },
+  { id: 'reason_code', numeric: true, disablePadding: false, label: 'Reason Code' },
   { id: 'isOpen', numeric: true, disablePadding: false, label: 'Is Open Invoicen' },
   { id: 'discount_due_date_norm', numeric: false, disablePadding: false, label: 'Discount Due Date Normalised' },
-  { id: 'debit_credit_indicator', numeric: false, disablePadding: false, label: 'Debit Credit Status' },
-  { id: 'payment_method', numeric: false, disablePadding: false, label: 'Payment Method' },
-  { id: 'document_creation_date', numeric: false, disablePadding: false, label: 'Document Create Date' },
+  { id: 'debit_credit_indicator', numeric: true, disablePadding: false, label: 'Debit Credit Status' },
+  { id: 'payment_method', numeric: true, disablePadding: false, label: 'Payment Method' },
+  { id: 'document_creation_date', numeric: true, disablePadding: false, label: 'Document Create Date' },
   { id: 'invoice_amount_doc_currency', numeric: true, disablePadding: false, label: 'Invoice Currency' },
   { id: 'document_id', numeric: true, disablePadding: false, label: 'Doc Id' },
   { id: 'actual_open_amount', numeric: true, disablePadding: false, label: 'Actual Amount Outstanding' },
@@ -317,7 +317,8 @@ export default function Invoices() {
     const fetchData = React.useCallback(() => {
     axios({
       "method": "GET",
-      "url": "https://jsonplaceholder.typicode.com/users",
+      //"url": "https://jsonplaceholder.typicode.com/users",
+      "url": "http://localhost:8080/1705745/fetchdata",
     })
     .then((response) => {
     //console.log(response.data);
@@ -351,7 +352,7 @@ export default function Invoices() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = responseData.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -420,17 +421,17 @@ export default function Invoices() {
               {stableSort(Array.from(responseData), getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.acct_doc_header_id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.acct_doc_header_id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.acct_doc_header_id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox" className={classes.tablecell}>
