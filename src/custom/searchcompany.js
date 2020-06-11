@@ -16,10 +16,10 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
 
     tablecell:{
         color: "rgb(166, 172, 175)",
-        borderBottom: "none"
+        borderBottom: "none",
+        
     },
 
     table: {
@@ -71,6 +72,8 @@ const useStyles = makeStyles((theme) => ({
      tablecellbody:{
         color: "#fff",
         borderColor: "#566573 ",
+        position:"relative",
+        top:-5
     },
 
     formControl: {
@@ -87,7 +90,10 @@ const useStyles = makeStyles((theme) => ({
       color:"#85C1E9",
       fontSize:"20px"
       
-  }  
+  },
+  multilineColor:{
+    color:'#fff'
+    } 
 
 }));
 
@@ -137,7 +143,7 @@ export default function SearchCompany() {
                     }
                 />
 
-                <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer}>
+                <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer} style={{marginBottom:"-40px", display:"none"}}>
                 <Typography variant="h6" component="h6" style={{fontSize:"14px", color:"rgb(166, 172, 175)", marginTop:25, marginLeft:-5}}>Advanced Search</Typography>
                     <Grid container className={classes.root} spacing={2} style={{marginTop:-5}}>
                             <Grid item xs={12}>
@@ -154,7 +160,7 @@ export default function SearchCompany() {
                                                 onChange={handleChange}
                                                 displayEmpty
                                                 className={classes.selectEmpty}
-                                                inputProps={{ 'aria-label': 'Without label' }}
+                                                //inputProps={{ 'aria-label': 'Without label' }}
                                                 disableUnderline
                                                 inputProps={{
                                                     classes: {
@@ -173,8 +179,41 @@ export default function SearchCompany() {
                                             </FormControl>
                                     </Grid>
                                 </Grid>
-                            </Grid>     
+                            </Grid>   
+                            <Divider orientation="horizontal" variant="fullWidth" style={{backgroundColor:"#566573", width:"100%", marginTop:"-55px" }} />  
+
+                              <Grid item xs={12} style={{marginTop:"-43px"}}>
+                                <Grid container spacing={0}>
+                                    <Grid item xs={12} sm={3}>
+                                        <Typography variant="h6" component="h6" style={{fontSize:"13px", color:"rgb(166, 172, 175)", width:"100%"}}>Open Amount ($): </Typography>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={9}>
+                                        <Divider orientation="vertical" variant="inset" style={{backgroundColor:"rgb(166, 172, 175)", height:15, marginLeft:40}} />
+                                         <FormControl className={classes.formControl} style={{position:"relative",top:-47, marginLeft:60, width:"70%"}}>
+                                             <TextField
+                                                id="standard-helperText"
+                                                className= {classes.selectEmpty}
+                                                InputProps={{ disableUnderline: true,
+                                                classes: {
+                                                    input: classes.multilineColor
+                                                }
+                                                 }}
+                                                
+                                            />
+                                                
+                                            </FormControl>
+                                    </Grid>
+                                </Grid>
+                            </Grid>   
+                            <Divider orientation="horizontal" variant="fullWidth" style={{backgroundColor:"#566573", width:"100%", marginTop:"-55px" }} />  
                     </Grid>
+
+                    <div style={{marginTop:-50, float:"right"}}>
+                     <Button size="small" className={classes.margin}  variant="outlined" style={{borderColor:"#5DADE2", color:"#5DADE2"}}>close</Button>
+                     <Button size="small" className={classes.margin}  variant="contained" style={{marginLeft:10, backgroundColor:"#5DADE2", color:"#fff", fontWeight:"bold"}}>search</Button>
+                    </div>
+                    
 
 
                 </Container>
