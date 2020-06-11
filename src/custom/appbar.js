@@ -12,7 +12,7 @@ class AppBarPage extends Component{
         return(
             <AppBar position="static" color="transparent" style={{color: "#fff", boxShadow:"none"}}>
                 <Toolbar variant="dense">
-                    <Typography variant="h6" align="left" style={{fontSize:"18px", fontWeight:"bold", flex:1, marginLeft:3}}>
+                    <Typography variant="h6" align="left" style={{fontSize:"20px", fontWeight:"bold", flex:1, marginLeft:3}}>
                     ABC Products
                     </Typography>
 

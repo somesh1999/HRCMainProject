@@ -11,6 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,6 +107,10 @@ export default function SearchCompany() {
                         </InputAdornment>
                     }
                 />
+
+                {/* <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer}>
+                <Typography variant="h6" component="h6" style={{fontSize:"15px", color:"rgb(166, 172, 175)"}}>Advanced Search</Typography>
+                </Container> */}
 
                     <Table className={classes.table} size="small" aria-label="simple table">
                         <TableHead>
