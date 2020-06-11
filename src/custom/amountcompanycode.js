@@ -100,11 +100,11 @@ export default function AmountCompanyCode() {
 
         <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none", borderRadius:"0px", paddingLeft:"5px"}}>
             <CardContent className={classes.card}>
-                <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" align="left" style={{fontSize:"20px", color:"#A6ACAF ",}}>
+                <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" align="left" style={{fontSize:"20px", color:"#A6ACAF ", marginTop: "-15px"}}>
                            Total Amount by Company Code
                  </Typography>
 
-                <Grid container className={classes.root} spacing={2} style={{marginTop: "15px"}}>
+                <Grid container className={classes.root} spacing={2} style={{marginTop: "18px"}}>
                     <Grid item xs={12}>
                         <Grid container spacing={spacing}>
                         {json.map((value) => (

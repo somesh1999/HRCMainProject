@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Invoices from '../custom/invoices.js';
 import AmountCompanyCode from '../custom/amountcompanycode.js';
+import SearchCompany from '../custom/searchcompany.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,7 @@ export default function StatsSection() {
             <Grid item xs={12} sm={4}>
                   
                   <AmountCompanyCode />
+                  <SearchCompany/>
 
             </Grid>
 

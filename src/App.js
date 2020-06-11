@@ -4,7 +4,7 @@ import './App.css';
 import AppBar from './custom/appbar.js';
 import StatsSection from './custom/statssection.js';
 import BodySection from './custom/body.js';
-
+import Footer from './custom/footer.js';
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
       <AppBar />
       <StatsSection />
       <BodySection />
+      <Footer />
     </div>
   );
 }

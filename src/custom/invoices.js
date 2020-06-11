@@ -270,7 +270,7 @@ export default function Invoices() {
   const [page, setPage] = React.useState(0);
   //const [dense, setDense] = React.useState(false);
   const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(12);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -389,7 +389,7 @@ export default function Invoices() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[12, 20, 30]}
+          rowsPerPageOptions={[8, 16, 32]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
