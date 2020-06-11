@@ -13,6 +13,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +72,22 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff",
         borderColor: "#566573 ",
     },
-    
+
+    formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+    fontSize:13,
+    color:"#fff",
+    borderBottom:"none",
+  },
+  icon: {
+      color:"#85C1E9",
+      fontSize:"20px"
+      
+  }  
 
 }));
 
@@ -84,7 +107,13 @@ const rows = [
 ];
 
 export default function SearchCompany() {
-  const classes = useStyles();  
+  const classes = useStyles(); 
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+ 
   return (
 
    
@@ -108,9 +137,47 @@ export default function SearchCompany() {
                     }
                 />
 
-                {/* <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer}>
-                <Typography variant="h6" component="h6" style={{fontSize:"15px", color:"rgb(166, 172, 175)"}}>Advanced Search</Typography>
-                </Container> */}
+                <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer}>
+                <Typography variant="h6" component="h6" style={{fontSize:"14px", color:"rgb(166, 172, 175)", marginTop:25, marginLeft:-5}}>Advanced Search</Typography>
+                    <Grid container className={classes.root} spacing={2} style={{marginTop:-5}}>
+                            <Grid item xs={12}>
+                                <Grid container spacing={0}>
+                                    <Grid item xs={12} sm={2}>
+                                        <Typography variant="h6" component="h6" style={{fontSize:"13px", color:"rgb(166, 172, 175)", width:"100%"}}>Amount in: </Typography>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={10}>
+                                        <Divider orientation="vertical" variant="inset" style={{backgroundColor:"rgb(166, 172, 175)", height:15}} />
+                                         <FormControl className={classes.formControl} style={{position:"relative",top:-47, marginLeft:100, width:"70%"}}>
+                                            <Select
+                                                value={age}
+                                                onChange={handleChange}
+                                                displayEmpty
+                                                className={classes.selectEmpty}
+                                                inputProps={{ 'aria-label': 'Without label' }}
+                                                disableUnderline
+                                                inputProps={{
+                                                    classes: {
+                                                        icon: classes.icon,
+                                                    },
+                                                }}
+                                                >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={10}>Ten</MenuItem>
+                                                <MenuItem value={20}>Twenty</MenuItem>
+                                                <MenuItem value={30}>Thirty</MenuItem>
+                                                </Select>
+                                                
+                                            </FormControl>
+                                    </Grid>
+                                </Grid>
+                            </Grid>     
+                    </Grid>
+
+
+                </Container>
 
                     <Table className={classes.table} size="small" aria-label="simple table">
                         <TableHead>
