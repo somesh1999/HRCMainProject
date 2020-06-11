@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import '../App.css';
+import axios from 'axios';
 
 
 
@@ -263,6 +264,34 @@ tablePaginationActions: {
 }));
 
 export default function Invoices() {
+
+    let [responseData, setResponseData] = React.useState('');
+    // axios.get(`https://jsonplaceholder.typicode.com/users`)
+    //   .then(res => {
+    //     const persons = res.data;
+    //     setResponseData(persons);
+    //   })
+
+    const fetchData = React.useCallback(() => {
+    axios({
+      "method": "GET",
+      "url": "https://jsonplaceholder.typicode.com/users",
+    })
+    .then((response) => {
+    //console.log(response.data);
+      setResponseData(response.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
+  React.useEffect(() => {
+    fetchData()
+  }, [fetchData])
+  
+   
+
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -343,10 +372,10 @@ export default function Invoices() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={responseData.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(Array.from(responseData), getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -371,7 +400,7 @@ export default function Invoices() {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none" className={classes.tablecell}>
-                        {row.name}
+                       {row.name}
                       </TableCell>
                       <TableCell align="right" className={classes.tablecell}>{row.calories}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>{row.fat}</TableCell>
