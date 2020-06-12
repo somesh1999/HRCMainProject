@@ -448,9 +448,9 @@ export default function Invoices() {
                       <TableCell align="right" className={classes.tablecell}>
                         {row.company_id}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.document_number}</TableCell>
+                        {row.doc_number}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.document_number_norm}</TableCell>
+                        {row.doc_number_norm}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
                         {row.business_code}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
@@ -458,15 +458,15 @@ export default function Invoices() {
                       <TableCell align="right" className={classes.tablecell}>
                         {row.document_line_number}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.doctype}</TableCell>
+                        {row.document_type}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.customer_number}</TableCell>
+                        {row.cust_number}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.customer_number_norm}</TableCell>
+                        {row.cust_number_norm}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.fk_customer_map_id}</TableCell>
+                        {row.customer_map_id}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.customer_name}</TableCell>
+                        {row.name_customer}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
                         {row.division}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
@@ -480,13 +480,13 @@ export default function Invoices() {
                       <TableCell align="right" className={classes.tablecell}>
                         {row.posting_id}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.due_date}</TableCell>
+                        {row.due_in_date}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.due_date_norm }</TableCell>
+                        {row.due_in_date_norm }</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.order_date}</TableCell>
+                        {row.order_create_date}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.order_date_norm}</TableCell>
+                        {row.order_create_date_norm}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
                         {row.invoice_id}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
@@ -502,41 +502,41 @@ export default function Invoices() {
                       <TableCell align="right" className={classes.tablecell}>
                         {row.cust_payment_terms}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.business_area}</TableCell>
+                        {row.area_business}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.ship_date}</TableCell>
+                        {row.shipping_date}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.ship_to}</TableCell>
+                        {row.shipping_to}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.clearing_date}</TableCell>
+                        {row.clear_date}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.clearing_date_norm}</TableCell>
+                        {row.clear_date_norm}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
                         {row.reason_code}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.isOpen}</TableCell>
+                        {row.is_open_invoice}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
                         {row.discount_due_date_norm}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.debit_credit_indicator}</TableCell>
+                        {row.debit_credit_status}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
                         {row.payment_method}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.document_creation_date}</TableCell>
+                        {row.document_create_date_1}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.invoice_amount_doc_currency}</TableCell>
+                        {row.invoice_currency}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.document_id}</TableCell>
+                        {row.doc_id}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.actual_open_amount}</TableCell>
+                        {row.actual_outstanding_amount}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.paid_amount}</TableCell>
+                        {row.payment_amount}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.dayspast_due}</TableCell>
+                        {row.days_past_duedate}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.invoice_age}</TableCell>
+                        {row.age_invoice}</TableCell>
                       <TableCell align="right" className={classes.tablecell}>
-                        {row.disputed_amount}</TableCell>
+                        {row.dispute_amount}</TableCell>
                     </TableRow>
                   );
                 })}
