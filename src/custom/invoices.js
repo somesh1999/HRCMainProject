@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { lighten, withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,7 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+// import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -21,26 +21,26 @@ import axios from 'axios';
 
 
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
+// const rows = [
+//   createData('Cupcake', 305, 3.7, 67, 4.3),
+//   createData('Donut', 452, 25.0, 51, 4.9),
+//   createData('Eclair', 262, 16.0, 24, 6.0),
+//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+//   createData('Honeycomb', 408, 3.2, 87, 6.5),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+//   createData('Jelly Bean', 375, 0.0, 94, 0.0),
+//   createData('KitKat', 518, 26.0, 65, 7.0),
+//   createData('Lollipop', 392, 0.2, 98, 0.0),
+//   createData('Marshmallow', 318, 0, 81, 2.0),
+//   createData('Nougat', 360, 19.0, 9, 37.0),
+//   createData('Oreo', 437, 18.0, 63, 4.0),
   
-];
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -69,7 +69,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'Account Header ID', numeric: false, disablePadding: true, label: 'Account Header ID' },
+  { id: 'account_header_id', numeric: false, disablePadding: true, label: 'Account Header ID' },
   { id: 'company_id', numeric: true, disablePadding: false, label: 'Company ID' },
   { id: 'document_number', numeric: true, disablePadding: false, label: 'Document Number' },
   { id: 'document_number_norm', numeric: true, disablePadding: false, label: 'Document Number Normalised' },
@@ -120,15 +120,16 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+ // const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount } = props;
+//   const createSortHandler = (property) => (event) => {
+//     onRequestSort(event, property);
+//   };
 
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox" className={classes.tablecell}>
+        <TableCell padding="checkbox" className={classes.tablecells}>
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -146,21 +147,23 @@ function EnhancedTableHead(props) {
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
             className={classes.tablecell}
+            style={{whiteSpace: "nowrap",   width: '2rem'}}
+            
           >
-            <TableSortLabel
+            {/* <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
               className={classes.tablecell}
-
-            >
+              style={{whiteSpace: "nowrap"}}
+            > */}
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
               ) : null}
-            </TableSortLabel>
+            {/* </TableSortLabel> */}
           </TableCell>
         ))}
       </TableRow>
@@ -171,7 +174,7 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
+  //onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -233,7 +236,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
 
   root: {
     width: '100%',
@@ -249,8 +252,8 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 750,
     backgroundColor:"#222a46",
-    color: "#fff !important"
-  
+    color: "#fff !important",
+    
     
   },
   visuallyHidden: {
@@ -268,7 +271,24 @@ const useStyles = makeStyles((theme) => ({
 
   tablecell:{
       color: "#fff !important",
+      borderColor:"#566573",
       padding: 0,
+      paddingRight:30,
+       "&:hover": {
+            color: "#fff !important"
+        },
+        "&:active": {
+            color: "#fff"
+        },
+       
+        
+  },
+
+  tablecells:{
+      color: "#fff !important",
+      borderColor:"#566573",
+      padding: 0,
+      
        "&:hover": {
             color: "#fff !important"
         },
@@ -303,270 +323,324 @@ tablePaginationActions: {
     color: 'white',
   },
   
-}));
+});
 
-export default function Invoices() {
+class Invoices extends Component {
 
-    let [responseData, setResponseData] = React.useState('');
+    //let [responseData, setResponseData] = React.useState('');
     // axios.get(`https://jsonplaceholder.typicode.com/users`)
     //   .then(res => {
     //     const persons = res.data;
     //     setResponseData(persons);
     //   })
 
-    const fetchData = React.useCallback(() => {
-    axios({
-      "method": "GET",
-      //"url": "https://jsonplaceholder.typicode.com/users",
-      "url": "http://localhost:8080/1705745/fetchdata",
-    })
-    .then((response) => {
-    //console.log(response.data);
-      setResponseData(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }, [])
+//     const fetchData = React.useCallback(() => {
+//     axios({
+//       "method": "GET",
+//       //"url": "https://jsonplaceholder.typicode.com/users",
+//       "url": "http://localhost:8080/1705745/fetchdata",
+//     })
+//     .then((response) => {
+//     //console.log(response.data);
+//       setResponseData(response.data)
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+//   }, [])
 
-  React.useEffect(() => {
-    fetchData()
-  }, [fetchData])
+//   React.useEffect(() => {
+//     fetchData()
+//   }, [fetchData])
   
-   
 
-  const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  //const [dense, setDense] = React.useState(false);
-  const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+   constructor(props){
+      super(props);
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = responseData.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+      this.state = {
+          responseData : "",
+          setResponseData : responseData => this.setState({responseData}),
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+          order : "asc",
+          setOrder: order => this.setState({order}),
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
+          orderBy : '',
+          setOrderBy: orderBy => this.setState({orderBy}),
 
-    setSelected(newSelected);
-  };
+          selected : [],
+          setSelected: selected => this.setState({selected}),
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+          page : 0,
+          setPage: page => this.setState({page}),
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+          dense : false,
 
-//   const handleChangeDense = (event) => {
-//     setDense(event.target.checked);
-//   };
+          rowsPerPage: 12,
+          setRowsPerPage: rowsPerPage => this.setState({rowsPerPage}),
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
-  return (
-    <div className={classes.root}>
-      <Paper className={classes.paper} style={{borderRadius: "0px", background: "rgba(133, 146, 158, 0.3 )"}}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-            aria-label="enhanced table"
-
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={responseData.length}
-            />
-            <TableBody>
-              {stableSort(Array.from(responseData), getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.acct_doc_header_id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.acct_doc_header_id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.acct_doc_header_id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox" className={classes.tablecell}>
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        //    borderColor = "primary"
-                            style= {{borderColor: "#fff", color:"#fff"}}
-                        />
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none" className={classes.tablecell}>
-                       {row.acct_doc_header_id}
-                      </TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.company_id}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.doc_number}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.doc_number_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.business_code}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.create_year}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.document_line_number}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.document_type}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.cust_number}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.cust_number_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.customer_map_id}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.name_customer}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.division}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.document_create_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.document_create_date_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.posting_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.posting_date_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.posting_id}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.due_in_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.due_in_date_norm }</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.order_create_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.order_create_date_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.invoice_id}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.invoice_id_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.baseline_create_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.invoice_date_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.total_open_amount}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.total_open_amount_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.cust_payment_terms}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.area_business}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.shipping_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.shipping_to}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.clear_date}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.clear_date_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.reason_code}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.is_open_invoice}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.discount_due_date_norm}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.debit_credit_status}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.payment_method}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.document_create_date_1}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.invoice_currency}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.doc_id}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.actual_outstanding_amount}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.payment_amount}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.days_past_duedate}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.age_invoice}</TableCell>
-                      <TableCell align="right" className={classes.tablecell}>
-                        {row.dispute_amount}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 50 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[8, 16, 32]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-          classes={{
-                root: classes.tablePagination,
-                caption: classes.tablePaginationCaption,
-                selectIcon: classes.tablePaginationSelectIcon,
-                select: classes.tablePaginationSelect,
-                actions: classes.tablePaginationActions,
-              }}
           
-        />
-      </Paper>
-      
-    </div>
-  );
+
+      };
+        
+  }  
+
+  componentDidMount(){
+            axios({
+            "method": "GET",
+            "url": "http://localhost:8080/1705745/fetchdata",
+            })
+            .then((response) => {
+            //console.log(response.data);
+                this.setState({
+                    responseData : response.data,
+                })
+            })
+            .catch((error) => {
+            console.log(error)
+            })
+    }
+
+//   const classes = useStyles();
+//   const [order, setOrder] = React.useState('asc');
+//   const [orderBy, setOrderBy] = React.useState('');
+//   const [selected, setSelected] = React.useState([]);
+//   const [page, setPage] = React.useState(0);
+//   const [dense, setDense] = React.useState(false);
+//   const [dense] = React.useState(false);
+//   const [rowsPerPage, setRowsPerPage] = React.useState(12);
+
+  render(){ 
+            const { classes } = this.props;
+    
+            // const handleRequestSort = (event, property) => {
+            //     const isAsc = this.state.orderBy === property && this.state.order === 'asc';
+            //     console.log(isAsc);
+            //     this.state.setOrder(isAsc ? 'desc' : 'asc');
+            //     this.state.setOrderBy(property);
+                
+            // };
+
+            const handleSelectAllClick = (event) => {
+                if (event.target.checked) {
+                const newSelecteds = this.state.responseData.map((n) => n.name);
+                this.state.setSelected(newSelecteds);
+                return;
+                }
+                this.state.setSelected([]);
+            };
+
+            const handleClick = (event, name) => {
+                const selectedIndex = this.state.selected.indexOf(name);
+                let newSelected = [];
+
+                if (selectedIndex === -1) {
+                newSelected = newSelected.concat(this.state.selected, name);
+                } else if (selectedIndex === 0) {
+                newSelected = newSelected.concat(this.state.selected.slice(1));
+                } else if (selectedIndex === this.state.selected.length - 1) {
+                newSelected = newSelected.concat(this.state.selected.slice(0, -1));
+                } else if (selectedIndex > 0) {
+                newSelected = newSelected.concat(
+                    this.state.selected.slice(0, selectedIndex),
+                    this.state.selected.slice(selectedIndex + 1),
+                );
+                }
+
+                this.state.setSelected(newSelected);
+            };
+
+            const handleChangePage = (event, newPage) => {
+                this.state.setPage(newPage);
+            };
+
+            const handleChangeRowsPerPage = (event) => {
+                this.state.setRowsPerPage(parseInt(event.target.value, 10));
+                this.state.setPage(0);
+            };
+
+            //   const handleChangeDense = (event) => {
+            //     setDense(event.target.checked);
+            //   };
+
+            const isSelected = (name) => this.state.selected.indexOf(name) !== -1;
+
+            //const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+            const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, this.state.responseData.length - this.state.page * this.state.rowsPerPage);
+
+            return (
+                <div className={classes.root}>
+                <Paper className={classes.paper} style={{borderRadius: "0px", background: "rgba(133, 146, 158, 0.3 )"}}>
+                    <EnhancedTableToolbar numSelected={this.state.selected.length} />
+                    <TableContainer style={{ overflow: 'auto', height: '390px' }}>
+                    <Table
+                        className={classes.table}
+                        aria-labelledby="tableTitle"
+                        size={this.state.dense ? 'small' : 'medium'}
+                        aria-label="enhanced table"
+                    >
+                        <EnhancedTableHead
+                        classes={classes}
+                        numSelected={this.state.selected.length}
+                        order={this.state.order}
+                        orderBy={this.state.orderBy}
+                        onSelectAllClick={handleSelectAllClick}
+                        //onRequestSort={handleRequestSort}
+                        rowCount={this.state.responseData.length}
+                        />
+                        <TableBody>
+                        {stableSort(Array.from(this.state.responseData), getComparator(this.state.order,this.state.orderBy))
+                            .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                            .map((row, index) => {
+                            const isItemSelected = isSelected(row.acct_doc_header_id);
+                            const labelId = `enhanced-table-checkbox-${index}`;
+
+                            return (
+                                <TableRow
+                                hover
+                                onClick={(event) => handleClick(event, row.acct_doc_header_id)}
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                key={row.acct_doc_header_id}
+                                selected={isItemSelected}
+                                >
+                                <TableCell padding="checkbox" className={classes.tablecells}>
+                                    <Checkbox
+                                    checked={isItemSelected}
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                    //    borderColor = "primary"
+                                        style= {{borderColor: "#fff", color:"#fff"}}
+                                    />
+                                </TableCell>
+                                <TableCell component="th" id={labelId} scope="row" padding="none" className={classes.tablecell}>
+                                {row.acct_doc_header_id}
+                                </TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.company_id}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.doc_number}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.doc_number_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.business_code}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.create_year}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.document_line_number}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.document_type}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.cust_number}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.cust_number_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.customer_map_id}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.name_customer}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.division}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.document_create_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.document_create_date_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.posting_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.posting_date_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.posting_id}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.due_in_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.due_in_date_norm }</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.order_create_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.order_create_date_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.invoice_id}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.invoice_id_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.baseline_create_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.invoice_date_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.total_open_amount}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.total_open_amount_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.cust_payment_terms}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.area_business}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.shipping_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.shipping_to}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.clear_date}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.clear_date_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.reason_code}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.is_open_invoice}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.discount_due_date_norm}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.debit_credit_status}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.payment_method}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.document_create_date_1}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.invoice_currency}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.doc_id}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.actual_outstanding_amount}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.payment_amount}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.days_past_duedate}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.age_invoice}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.dispute_amount}</TableCell>
+                                </TableRow>
+                            );
+                            })}
+                        {emptyRows > 0 && (
+                            <TableRow style={{ height: (this.state.dense ? 50 : 53) * emptyRows }}>
+                            <TableCell colSpan={6} />
+                            </TableRow>
+                        )}
+                        </TableBody>
+                    </Table>
+                    </TableContainer>
+                    <TablePagination
+                    rowsPerPageOptions={[12, 100, 300]}
+                    component="div"
+                    count={this.state.responseData.length}
+                    rowsPerPage={this.state.rowsPerPage}
+                    page={this.state.page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    classes={{
+                            root: classes.tablePagination,
+                            caption: classes.tablePaginationCaption,
+                            selectIcon: classes.tablePaginationSelectIcon,
+                            select: classes.tablePaginationSelect,
+                            actions: classes.tablePaginationActions,
+                        }}
+                    
+                    />
+                </Paper>
+                
+                </div>
+            );
 }
+}
+
+export default withStyles(useStyles)(Invoices)

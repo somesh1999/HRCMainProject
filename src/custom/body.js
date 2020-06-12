@@ -1,11 +1,11 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Invoices from '../custom/invoices.js';
 import AmountCompanyCode from '../custom/amountcompanycode.js';
 import SearchCompany from '../custom/searchcompany.js';
+import { withStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
     paddingLeft:25,
@@ -30,16 +30,25 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 25
   }
 
-}));
+});
 
-export default function StatsSection() {
-  const [spacing] = React.useState(2);
-  const classes = useStyles();
-  
+class BodySection extends Component {
+
+  constructor(props){
+      super(props);
+      this.state = {
+          spacing : 2,
+      }
+  }  
+
+  render(){  
+//   const [spacing] = React.useState(2);
+//   const classes = useStyles();
+  const { classes } = this.props;
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        <Grid container spacing={spacing}>
+        <Grid container spacing={this.state.spacing}>
             <Grid item xs={12} sm={4}>
                   
                   <AmountCompanyCode />
@@ -59,3 +68,7 @@ export default function StatsSection() {
     </Grid>
   );
 }
+
+}
+
+export default withStyles(useStyles)(BodySection)
