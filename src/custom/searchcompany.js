@@ -20,6 +20,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 const useStyles = (theme) => ({
@@ -61,6 +63,7 @@ const useStyles = (theme) => ({
     tablecell:{
         color: "rgb(166, 172, 175)",
         borderBottom: "none",
+        whiteSpace: "nowrap",
         
     },
 
@@ -98,20 +101,6 @@ const useStyles = (theme) => ({
 });
 
 
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  
-];
-
 class SearchCompany extends Component {
 //   const classes = useStyles(); 
 //   const [age, setAge] = React.useState('');
@@ -123,26 +112,96 @@ class SearchCompany extends Component {
       super(props);
       this.state = {
           age : "",
-          setAge : ""
+          setAge : "",
+          responseData: "",
+          incr : 0,
+          clearIconDisplay:false,
+          searchInputval: "",
       }
 
-  } 
+  }
+
+        sendrequest(type){
+             axios.post(`http://localhost:8080/1705745/fetchcustomerinfo`,
+                {},
+                {
+                    headers: { "Content-Type": "application/json" },
+                    params: { type: type },
+                }
+                )
+                .then((response) => {
+
+                    this.setState({
+                        responseData : response.data,
+                    });
+                })
+                .catch((err) => {
+                console.log(err);
+                });
+
+         
+
+            }
+    componentDidMount(){
+            this.sendrequest("all");
+           
+        }
+
+    handleKeyPress = (event) => {
+        this.sendrequest(event.target.value);
+        this.setState({
+            searchInputval : event.target.value,
+        })
+        if(event.target.value === ""){
+            this.setState({
+                clearIconDisplay: false,
+            })
+        }
+        else{
+            this.setState({
+                clearIconDisplay: true,
+            })
+        }
+       }   
+
+        searchFieldChange(event){
+        const inputName = event.target.value
+        this.setState({
+            searchInputval: inputName
+        })
+        }
+       clearSearch = (event) => {
+          this.setState({
+              searchInputval: "",
+              clearIconDisplay: false,
+          })
+          this.sendrequest("all");
+       }
 
   render(){ 
      const { classes } = this.props; 
      const handleChange = (event) => {
         this.state.setAge(event.target.value);
       };
+
+     
+      
+      
+
  
             return (
 
             
-                            <TableContainer style={{marginTop:15, background: "rgba(133, 146, 158, 0.3 )", paddingTop:30, paddingBottom:26}}>
+                            <TableContainer style={{marginTop:15, background: "rgba(133, 146, 158, 0.3 )", paddingTop:30, paddingBottom:26, overflow: 'auto', height: '225px'}}>
                             <InputBase
+                            
                                 style={{float:"left", color:"#fff", fontSize:"13px", paddingRight:10, marginLeft:15, width:"93%"}}
                                 className = {classes.inputBase}
                                 placeholder="Search Customers by Customer Name or Number"
                                 inputProps={{ 'aria-label': 'search customer' }}
+                                onKeyUp={this.handleKeyPress}
+                                value = {this.state.searchInputval}
+                                onChange={this.searchFieldChange.bind(this)}
                                 startAdornment={
                                     <InputAdornment position="start">
                                     <SearchIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginLeft:"-1", marginTop:"0.8", marginRight:5, background:"#5DADE2", borderRadius:"100%"}} />
@@ -151,6 +210,7 @@ class SearchCompany extends Component {
 
                                 endAdornment={
                                     <InputAdornment position="end" style={{marginLeft:"-20"}}>
+                                     {this.state.clearIconDisplay === true? <ClearIcon style={{width:16, height:16, color:"#85C1E9 ", marginRight:5, cursor:"pointer"}} onClick={this.clearSearch}/>: null }
                                     <AttachMoneyIcon style={{width:20, height:20, color:"#85C1E9 "}} />
                                     <ArrowDropDownIcon style={{width:20, height:20, marginLeft:"-7px", color:"#85C1E9 "}} />
                                     </InputAdornment>
@@ -162,7 +222,7 @@ class SearchCompany extends Component {
                                 <Grid container className={classes.root} spacing={2} style={{marginTop:-5}}>
                                         <Grid item xs={12}>
                                             <Grid container spacing={0}>
-                                                <Grid item xs={12} sm={2}>
+                                                <Grid key = "1" item xs={12} sm={2}>
                                                     <Typography variant="h6" component="h6" style={{fontSize:"13px", color:"rgb(166, 172, 175)", width:"100%"}}>Amount in: </Typography>
                                                 </Grid>
 
@@ -241,13 +301,13 @@ class SearchCompany extends Component {
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {rows.map((row) => (
-                                        <TableRow key={row.name}>
+                                    {Array.from(this.state.responseData).map((row) => (
+                                        <TableRow key={row.cust_number}>
                                         <TableCell className={classes.tablecellbody} component="th" scope="row">
-                                            {row.name}
+                                            {row.name_customer}
                                         </TableCell>
-                                        <TableCell className={classes.tablecellbody} align="right">{row.calories}</TableCell>
-                                        <TableCell className={classes.tablecellbody} align="right">{row.fat}</TableCell>
+                                        <TableCell className={classes.tablecellbody} align="right">{row.cust_number}</TableCell>
+                                        <TableCell className={classes.tablecellbody} align="right">{row.total_open_amount}</TableCell>
                                         </TableRow>
                                     ))}
                                     </TableBody>
