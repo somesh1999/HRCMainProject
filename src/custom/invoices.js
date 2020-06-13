@@ -69,54 +69,33 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'account_header_id', numeric: false, disablePadding: true, label: 'Account Header ID' },
   { id: 'company_id', numeric: true, disablePadding: false, label: 'Company ID' },
+  { id: 'account_header_id', numeric: false, disablePadding: true, label: 'Account Header ID' },
   { id: 'document_number', numeric: true, disablePadding: false, label: 'Document Number' },
-  { id: 'document_number_norm', numeric: true, disablePadding: false, label: 'Document Number Normalised' },
   { id: 'business_code', numeric: true, disablePadding: false, label: 'Business Code' },
-  { id: 'create_year', numeric: true, disablePadding: false, label: 'Create Year' },
-  { id: 'document_line_number', numeric: true, disablePadding: false, label: 'Document Line number' },
   { id: 'doctype', numeric:true, disablePadding: false, label: 'Document Type' },
   { id: 'customer_number', numeric: true, disablePadding: false, label: 'Customer Number' },
-  { id: 'customer_number_norm', numeric: true, disablePadding: false, label: 'Customer Number Normalised' },
   { id: 'fk_customer_map_id', numeric: true, disablePadding: false, label: 'Customer Map ID' },
   { id: 'customer_name', numeric: true, disablePadding: false, label: 'Name Of Customer' },
-  { id: 'division', numeric: true, disablePadding: false, label: 'Division' },
   { id: 'document_create_date', numeric: true, disablePadding: false, label: 'Document Create Date' },
-  { id: 'document_create_date_norm', numeric: true, disablePadding: false, label: 'Document Create Date Normalised' },
-  { id: 'posting_date', numeric: true, disablePadding: false, label: 'Posting date' },
-  { id: 'posting_date_norm', numeric: true, disablePadding: false, label: 'Posting Date Normalised' },
-  { id: 'posting_id', numeric: true, disablePadding: false, label: 'Posting ID' },
-  { id: 'due_date', numeric: true, disablePadding: false, label: 'Due In Date' },
-  { id: 'due_date_norm', numeric: true, disablePadding: false, label: 'Due In Date Normalised' },
-  { id: 'order_date', numeric: true, disablePadding: false, label: 'Order create Date' },
-  { id: 'order_date_norm', numeric: true, disablePadding: false, label: 'Order Create Date Normalised' },
-  { id: 'invoice_id', numeric: true, disablePadding: false, label: 'Invoice ID' },
-  { id: 'invoice_id_norm', numeric: true, disablePadding: false, label: 'Invoice ID Normalised' },
   { id: 'baseline_create_date', numeric: true, disablePadding: false, label: 'Baseline Date' },
   { id: 'invoice_date_norm', numeric: true, disablePadding: false, label: 'Invoice Date' },
+  { id: 'invoice_id', numeric: true, disablePadding: false, label: 'Invoice ID' },
   { id: 'total_open_amount', numeric: true, disablePadding: false, label: 'Total Open Amount' },
-  { id: 'total_open_amount_norm', numeric: true, disablePadding: false, label: 'Total Open Amount Normalised' },
   { id: 'cust_payment_terms', numeric: true, disablePadding: false, label: 'Customer Payment Terms' },
-  { id: 'business_area', numeric: true, disablePadding: false, label: 'Area of Business' },
-  { id: 'ship_date', numeric: true, disablePadding: false, label: 'Shipping Date' },
-  { id: 'ship_to', numeric: true, disablePadding: false, label: 'Shipping To' },
   { id: 'clearing_date', numeric: true, disablePadding: false, label: 'Clear Date' },
-  { id: 'clearing_date_norm', numeric: true, disablePadding: false, label: 'Clear Date Normalised' },
-  { id: 'reason_code', numeric: true, disablePadding: false, label: 'Reason Code' },
-  { id: 'isOpen', numeric: true, disablePadding: false, label: 'Is Open Invoicen' },
-  { id: 'discount_due_date_norm', numeric: false, disablePadding: false, label: 'Discount Due Date Normalised' },
-  { id: 'debit_credit_indicator', numeric: true, disablePadding: false, label: 'Debit Credit Status' },
-  { id: 'payment_method', numeric: true, disablePadding: false, label: 'Payment Method' },
-  { id: 'document_creation_date', numeric: true, disablePadding: false, label: 'Document Create Date' },
-  { id: 'invoice_amount_doc_currency', numeric: true, disablePadding: false, label: 'Invoice Currency' },
-  { id: 'document_id', numeric: true, disablePadding: false, label: 'Doc Id' },
-  { id: 'actual_open_amount', numeric: true, disablePadding: false, label: 'Actual Amount Outstanding' },
+  { id: 'isOpen', numeric: true, disablePadding: false, label: 'Is Open Invoice' },
+  { id: 'ship_date', numeric: true, disablePadding: false, label: 'Shipping Date' },
   { id: 'paid_amount', numeric: true, disablePadding: false, label: 'Payment Amount' },
   { id: 'dayspast_due', numeric: true, disablePadding: false, label: 'Days past Due date' },
+  { id: 'document_id', numeric: true, disablePadding: false, label: 'Doc Id' },
+  { id: 'document_create_date', numeric: true, disablePadding: false, label: 'Document Create Date' },
+  { id: 'actual_open_amount', numeric: true, disablePadding: false, label: 'Actual Amount Outstanding' },
   { id: 'invoice_age', numeric: true, disablePadding: false, label: 'Age of Invoice' },
-  { id: 'disputed_amount', numeric: true, disablePadding: false, label: 'Dispute Amount' },
-  
+  { id: 'invoice_amount_doc_currency', numeric: true, disablePadding: false, label: 'Invoice Currency' },
+  { id: 'predicted_payment_type', numeric: true, disablePadding: false, label: 'Predicted Payment Type' },
+  { id: 'predicted_amoount', numeric: true, disablePadding: false, label: 'Predicted Amount' },
+
 ];
 
 function EnhancedTableHead(props) {
@@ -513,102 +492,60 @@ class Invoices extends Component {
                                         style= {{borderColor: "#fff", color:"#fff"}}
                                     />
                                 </TableCell>
-                                <TableCell component="th" id={labelId} scope="row" padding="none" className={classes.tablecell}>
-                                {row.acct_doc_header_id}
-                                </TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.company_id}</TableCell>
+                                <TableCell component="th" id={labelId} scope="row" padding="none" className={classes.tablecell}>
+                                    {row.acct_doc_header_id}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.doc_number}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.doc_number_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
                                     {row.business_code}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.create_year}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.document_line_number}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.document_type}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.cust_number}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.cust_number_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
                                     {row.customer_map_id}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.name_customer}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.division}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
                                     {row.document_create_date}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.document_create_date_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.posting_date}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.posting_date_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.posting_id}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.due_in_date}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.due_in_date_norm }</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.order_create_date}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.order_create_date_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.invoice_id}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.invoice_id_norm}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.baseline_create_date}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.invoice_date_norm}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.total_open_amount}</TableCell>
+                                    {row.invoice_id}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.total_open_amount_norm}</TableCell>
+                                    {row.total_open_amount}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.cust_payment_terms}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.area_business}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.shipping_date}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.shipping_to}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
                                     {row.clear_date}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.clear_date_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.reason_code}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.is_open_invoice}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.discount_due_date_norm}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.debit_credit_status}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.payment_method}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.document_create_date_1}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.invoice_currency}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.doc_id}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.actual_outstanding_amount}</TableCell>
+                                    {row.shipping_date}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.payment_amount}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.days_past_duedate}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
+                                    {row.doc_id}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.document_create_date_1}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    {row.actual_outstanding_amount}</TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
                                     {row.age_invoice}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
-                                    {row.dispute_amount}</TableCell>
+                                    {row.invoice_currency}</TableCell>
+                                    <TableCell align="right" className={classes.tablecell}>
+                                    </TableCell>
+                                <TableCell align="right" className={classes.tablecell}>
+                                    </TableCell>
                                 </TableRow>
+                                
                             );
                             })}
                         {emptyRows > 0 && (
