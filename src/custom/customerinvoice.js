@@ -16,6 +16,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import '../App.css';
 import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
 
 
 
@@ -156,27 +158,75 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, buttonDisabled } = props;
 
   return (
     <Toolbar
       className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
+       // [classes.highlight]: numSelected > 0,
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
-        </Typography>
+        // <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        //   {numSelected} selected
+        // </Typography>
+        null
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div" style={{textAlign:"left", color:"#A6ACAF ", fontSize: "18px"}}>
-          Invoices
-        </Typography>
-         
+        // <Typography className={classes.title} variant="h6" id="tableTitle" component="div" style={{textAlign:"left", marginTop:20}}>
+        //   <Button variant="contained" disabled style={{marginLeft:"-12px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"}}>Modify</Button>
+        //   <Button variant="contained" disabled style={{marginLeft:"10px", color:"#D0D3D4", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"}}>Export</Button>
+        // </Typography>
+         null
         
       )}
+
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div" style={{textAlign:"left", marginTop:20}}>
+           <Button variant="contained" disabled={buttonDisabled} style={ buttonDisabled ? {marginLeft:"-12px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"} : {marginLeft:"-12px", color:"rgb(93, 173, 226) ", border:"1px solid rgb(93, 173, 226) ", fontSize:"12px", backgroundColor:"#1B1F38"} }>Modify</Button>
+           <Button variant="contained" disabled={buttonDisabled} style={ buttonDisabled ? {marginLeft:"10px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"} : {marginLeft:"10px", color:"rgb(93, 173, 226) ", border:"1px solid rgb(93, 173, 226) ", fontSize:"12px", backgroundColor:"#1B1F38"} }>Export</Button>
+       </Typography>
+
+      {/* Statistics display */}
+         <Grid container className={classes.root} spacing={2} style={{paddingTop:20, paddingBottom:20}} >
+                                        <Grid item xs={12}>
+                                            <Grid container spacing={0}>
+                                            <Grid item xs={12} sm={4}>
+                                                </Grid>
+                                                <Grid item xs={12} sm={2}>
+                                                    <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left">$980K</Typography>
+                                                    <Typography variant="subtitle2" style={{color:"rgb(166, 172, 175)", fontSize:"13px", whiteSpace: "nowrap"}} align="left">Total Open Amount</Typography>
+                                                </Grid>
+
+                                                <Grid item xs={12} sm={1}>
+                                                    <Divider orientation="vertical" variant="inset" style={{backgroundColor:"rgba(166, 172, 175, 0.4)", height:50, marginLeft:"20px"}} />
+                                                    
+                                                </Grid>
+
+                                                 <Grid item xs={12} sm={2}>
+                                                    <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left">1323</Typography>
+                                                    <Typography variant="subtitle2" style={{color:"rgb(166, 172, 175)", fontSize:"13px", whiteSpace: "nowrap"}} align="left">Total Open Invoices</Typography>
+                                                </Grid>
+
+                                                <Grid item xs={12} sm={1}>
+                                                    <Divider orientation="vertical" variant="inset" style={{backgroundColor:"rgba(166, 172, 175, 0.4)", height:50, marginLeft:"20px"}} />
+                                                    
+                                                </Grid>
+
+                                                 <Grid item xs={12} sm={2}>
+                                                    <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left">$1.2 M</Typography>
+                                                    <Typography variant="subtitle2" style={{color:"rgb(166, 172, 175)", fontSize:"13px", whiteSpace: "nowrap"}} align="left">Predicted Amount</Typography>
+                                                </Grid>
+
+                                                
+                                            </Grid>
+                                        </Grid>   
+                                        
+
+                                        
+                                </Grid>
+
+      {/* End of statistics display */}
     
-     <Button variant="contained" style={{color:"#fff", fontWeight:"bold", background:"#909497", fontSize:"13px" }}>PREDICT</Button>
+     
     </Toolbar>
   );
 };
@@ -188,12 +238,19 @@ EnhancedTableToolbar.propTypes = {
 const useStyles = (theme) => ({
 
   root: {
-    width: '100%',
+    flexGrow: 1,
+    paddingLeft:25,
+    paddingRight:25,
+    paddingTop:20,
     
+  },
+  
+  control: {
+    padding: theme.spacing(2),
   },
   paper: {
     //width: '97%',
-     width: `calc(100% - 30px)`,
+    width: `calc(100% - 30px)`,
     marginBottom: theme.spacing(2),
     paddingLeft: 15,
     paddingRight: 15,
@@ -267,7 +324,7 @@ tablePaginationActions: {
   
 });
 
-class Invoices extends Component {
+class CustomerInvoices extends Component {
 
 
    constructor(props){
@@ -293,6 +350,8 @@ class Invoices extends Component {
 
           rowsPerPage: 12,
           setRowsPerPage: rowsPerPage => this.setState({rowsPerPage}),
+
+          buttonDisabled:true,
 
           
 
@@ -350,6 +409,16 @@ class Invoices extends Component {
                 }
 
                 this.state.setSelected(newSelected);
+                if(newSelected.length === 1){
+                    this.setState({
+                        buttonDisabled:false,
+                    })
+                }
+                else{
+                    this.setState({
+                        buttonDisabled:true,
+                    })
+                }
             };
 
             const handleChangePage = (event, newPage) => {
@@ -371,8 +440,8 @@ class Invoices extends Component {
             return (
                 <div className={classes.root}>
                 <Paper className={classes.paper} style={{borderRadius: "0px", background: "rgba(133, 146, 158, 0.3 )"}}>
-                    <EnhancedTableToolbar numSelected={this.state.selected.length} />
-                    <TableContainer style={{ overflow: 'auto', height: '390px' }}>
+                    <EnhancedTableToolbar numSelected={this.state.selected.length} buttonDisabled={this.state.buttonDisabled} />
+                    <TableContainer style={{ overflow: 'auto', height: '490px' }}>
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -500,4 +569,4 @@ class Invoices extends Component {
 }
 }
 
-export default withStyles(useStyles)(Invoices)
+export default withStyles(useStyles)(CustomerInvoices)

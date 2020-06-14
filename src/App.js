@@ -2,10 +2,13 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import AppBar from './custom/appbar.js';
-import StatsSection from './custom/statssection.js';
-import BodySection from './custom/body.js';
-import Footer from './custom/footer.js';
+// import StatsSection from './custom/statssection.js';
+// import BodySection from './custom/body.js';
+// import Footer from './custom/footer.js';
 import { withStyles } from '@material-ui/core/styles';
+
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+// import Route from 'react-router-dom/Route';
 
 const styles = (theme) => ({
   '@global': {
@@ -27,10 +30,17 @@ const styles = (theme) => ({
 function App() {
   return (
     <div className="App">
-      <AppBar />
-      <StatsSection />
+    <Router>
+
+      <Route path="/" exact component={AppBar}/>
+      <Route path="/view/customer/:id" exact component={(props) => <AppBar {...props} isCustomer={true} />} />
+      {/* <AppBar /> */}
+
+    </Router>
+      {/* <StatsSection />
       <BodySection />
-      <Footer />
+      <Footer /> */}
+      
     </div>
   );
 }

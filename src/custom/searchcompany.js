@@ -22,7 +22,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import ClearIcon from '@material-ui/icons/Clear';
-
+import { Link } from 'react-router-dom';
 
 const useStyles = (theme) => ({
   root: {
@@ -304,10 +304,10 @@ class SearchCompany extends Component {
                                     {Array.from(this.state.responseData).map((row) => (
                                         <TableRow key={row.cust_number}>
                                         <TableCell className={classes.tablecellbody} component="th" scope="row">
-                                            {row.name_customer}
+                                            <Link id={row.cust_number} to={`/view/customer/${row.cust_number}`} style={{color:"#fff", textDecoration:"none"}}>{row.name_customer}</Link>
                                         </TableCell>
                                         <TableCell className={classes.tablecellbody} align="right">{row.cust_number}</TableCell>
-                                        <TableCell className={classes.tablecellbody} align="right">{row.total_open_amount}</TableCell>
+                                        <TableCell className={classes.tablecellbody} align="right">${row.total_open_amount}</TableCell>
                                         </TableRow>
                                     ))}
                                     </TableBody>
