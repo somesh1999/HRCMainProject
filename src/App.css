@@ -41,6 +41,18 @@
   color:#fff !important;
 }
 
+.MuiIconButton-root.Mui-disabled{
+  color:#fff !important;
+}
+.MuiMenu-list{
+  background:#1B1F38;
+  color:#fff;
+  border:1px solid rgb(166, 172, 175);
+}
+
+.MuiMenu-list li:hover{
+  background:rgba(166, 172, 175,0.3);
+}
 
 
 
