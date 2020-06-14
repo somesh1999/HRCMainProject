@@ -348,7 +348,7 @@ class CustomerInvoices extends Component {
 
           dense : false,
 
-          rowsPerPage: 12,
+          rowsPerPage: 10,
           setRowsPerPage: rowsPerPage => this.setState({rowsPerPage}),
 
           buttonDisabled:true,
@@ -441,7 +441,7 @@ class CustomerInvoices extends Component {
                 <div className={classes.root}>
                 <Paper className={classes.paper} style={{borderRadius: "0px", background: "rgba(133, 146, 158, 0.3 )"}}>
                     <EnhancedTableToolbar numSelected={this.state.selected.length} buttonDisabled={this.state.buttonDisabled} />
-                    <TableContainer style={{ overflow: 'auto', height: '490px' }}>
+                    <TableContainer style={{ overflow: 'auto', maxHeight: '490px' }}>
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -546,7 +546,7 @@ class CustomerInvoices extends Component {
                     </Table>
                     </TableContainer>
                     <TablePagination
-                    rowsPerPageOptions={[12, 100, 300]}
+                    rowsPerPageOptions={[5, 10, 20]}
                     component="div"
                     count={this.state.responseData.length}
                     rowsPerPage={this.state.rowsPerPage}

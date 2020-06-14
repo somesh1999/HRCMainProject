@@ -26,7 +26,8 @@ import SendIcon from '@material-ui/icons/Send';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import CustomerInvoices from '../custom/customerinvoice'
+import CustomerInvoices from '../custom/customerinvoice';
+import axios from 'axios';
 
 const drawerWidth = 240;
 const useStyles = (theme) => ({
@@ -121,6 +122,8 @@ class AppBarPage extends Component{
         this.state = {
             open : false,
             setOpen : open => this.setState({open}),
+
+            responseData:"",
         };
 
         
@@ -130,6 +133,34 @@ class AppBarPage extends Component{
     goBack() {
          this.props.history.goBack();
     } 
+
+
+     sendrequest(){
+             axios.post(`http://localhost:8080/1705745/fetchcustomername`,
+                {},
+                {
+                    headers: { "Content-Type": "application/json" },
+                    params: { id: this.props.match.params.id },
+                }
+                )
+                .then((response) => {
+
+                    this.setState({
+                        responseData : response.data[0],
+                    });
+                   
+                })
+                .catch((err) => {
+                console.log(err);
+                });
+
+         
+
+            }
+             componentDidMount(){
+            this.sendrequest();
+           
+        }
 
      render(){
          const { classes } = this.props;
@@ -155,8 +186,8 @@ class AppBarPage extends Component{
 
                {this.props.isCustomer === true? 
                <span style={{flex:1, marginLeft:20}}>
-                <Typography variant="h6" align="left" style={{fontSize:"22px"}}>
-                    Walmart
+                <Typography variant="h6" align="left" style={{fontSize:"22px", textTransform:"capitalize"}}>
+                    {this.state.responseData.name_customer}
                 </Typography>
                 <Typography variant="subtitle2" align="left" style={{position:"absolute", marginTop:-7, color:"rgb(166, 172, 175)"}}>
                     {this.props.match.params.id}

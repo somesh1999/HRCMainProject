@@ -24,6 +24,8 @@ import axios from 'axios';
 import ClearIcon from '@material-ui/icons/Clear';
 import { Link } from 'react-router-dom';
 
+import Fade from '@material-ui/core/Fade';
+
 const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -96,7 +98,11 @@ const useStyles = (theme) => ({
   },
   multilineColor:{
     color:'#fff'
-    } 
+    }, 
+
+    AdvancedSearchContainer:{
+        marginBottom: "-40px"
+    }
 
 });
 
@@ -117,6 +123,8 @@ class SearchCompany extends Component {
           incr : 0,
           clearIconDisplay:false,
           searchInputval: "",
+
+          checked: false,
       }
 
   }
@@ -184,11 +192,21 @@ class SearchCompany extends Component {
         this.state.setAge(event.target.value);
       };
 
-     
-      
-      
 
- 
+      const handleadvClick = () =>{
+          if(this.state.checked === false){
+                this.setState({
+                    checked : true,
+                })
+          }
+          else{
+              this.setState({
+                 checked : false,
+               })
+          }
+          
+      }
+
             return (
 
             
@@ -212,12 +230,12 @@ class SearchCompany extends Component {
                                     <InputAdornment position="end" style={{marginLeft:"-20"}}>
                                      {this.state.clearIconDisplay === true? <ClearIcon style={{width:16, height:16, color:"#85C1E9 ", marginRight:5, cursor:"pointer"}} onClick={this.clearSearch}/>: null }
                                     <AttachMoneyIcon style={{width:20, height:20, color:"#85C1E9 "}} />
-                                    <ArrowDropDownIcon style={{width:20, height:20, marginLeft:"-7px", color:"#85C1E9 "}} />
+                                    <ArrowDropDownIcon style={{width:20, height:20, marginLeft:"-7px", color:"#85C1E9", cursor:"pointer"}} onClick={handleadvClick}/>
                                     </InputAdornment>
                                 }
                             />
-
-                            <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer} style={{marginBottom:"-40px", display:"none"}}>
+                            <Fade in={this.state.checked}>
+                            <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer} style={this.state.checked ? {display:"block"}: {display:"none"}}>
                             <Typography variant="h6" component="h6" style={{fontSize:"14px", color:"rgb(166, 172, 175)", marginTop:25, marginLeft:-5}}>Advanced Search</Typography>
                                 <Grid container className={classes.root} spacing={2} style={{marginTop:-5}}>
                                         <Grid item xs={12}>
@@ -284,13 +302,14 @@ class SearchCompany extends Component {
                                 </Grid>
 
                                 <div style={{marginTop:-50, float:"right"}}>
-                                <Button size="small" className={classes.margin}  variant="outlined" style={{borderColor:"#5DADE2", color:"#5DADE2"}}>close</Button>
+                                <Button size="small" className={classes.margin}  variant="outlined" style={{borderColor:"#5DADE2", color:"#5DADE2"}} onClick={handleadvClick}>close</Button>
                                 <Button size="small" className={classes.margin}  variant="contained" style={{marginLeft:10, backgroundColor:"#5DADE2", color:"#fff", fontWeight:"bold"}}>search</Button>
                                 </div>
                                 
 
 
                             </Container>
+                            </Fade>
 
                                 <Table className={classes.table} size="small" aria-label="simple table">
                                     <TableHead>
