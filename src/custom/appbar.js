@@ -218,7 +218,7 @@ class AppBarPage extends Component{
                     <div className={classes.drawerHeader} />
                     
                     {this.props.isCustomer === true? 
-                        <CustomerInvoices/> 
+                        <CustomerInvoices id={this.props.match.params.id}/> 
                     : <StatsSection/> }
 
                     {this.props.isCustomer === true? 

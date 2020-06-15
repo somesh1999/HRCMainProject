@@ -262,7 +262,8 @@ tablePaginationSelect: {
     color: 'white'
   },
 tablePaginationActions: {
-    color: 'white',
+    //color: 'white',
+    color: 'rgb(93, 173, 226)',
   },
   
 });

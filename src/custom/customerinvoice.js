@@ -56,7 +56,7 @@ const headCells = [
   { id: 'doctype', numeric:true, disablePadding: false, label: 'Document Type' },
   { id: 'customer_number', numeric: true, disablePadding: false, label: 'Customer Number' },
   { id: 'fk_customer_map_id', numeric: true, disablePadding: false, label: 'Customer Map ID' },
-  { id: 'customer_name', numeric: true, disablePadding: false, label: 'Name Of Customer' },
+//   { id: 'customer_name', numeric: true, disablePadding: false, label: 'Name Of Customer' },
   { id: 'document_create_date', numeric: true, disablePadding: false, label: 'Document Create Date' },
   { id: 'baseline_create_date', numeric: true, disablePadding: false, label: 'Baseline Date' },
   { id: 'invoice_date_norm', numeric: true, disablePadding: false, label: 'Invoice Date' },
@@ -360,19 +360,23 @@ class CustomerInvoices extends Component {
   }  
 
   componentDidMount(){
-            axios({
-            "method": "GET",
-            "url": "http://localhost:8080/1705745/fetchdata",
-            })
-            .then((response) => {
-            //console.log(response.data);
-                this.setState({
-                    responseData : response.data,
+            axios.post(`http://localhost:8080/1705745/fetchcustomerdetails`,
+                {},
+                {
+                    headers: { "Content-Type": "application/json" },
+                    params: { id: this.props.id },
+                }
+                )
+                .then((response) => {
+
+                    this.setState({
+                        responseData : response.data,
+                    });
                 })
-            })
-            .catch((error) => {
-            console.log(error)
-            })
+                .catch((err) => {
+                console.log(err);
+                });
+
     }
 
 
@@ -495,8 +499,8 @@ class CustomerInvoices extends Component {
                                     {row.cust_number}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.customer_map_id}</TableCell>
-                                <TableCell align="right" className={classes.tablecell}>
-                                    {row.name_customer}</TableCell>
+                                {/* <TableCell align="right" className={classes.tablecell}>
+                                    {row.name_customer}</TableCell> */}
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.document_create_date}</TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
