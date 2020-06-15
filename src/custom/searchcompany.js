@@ -260,12 +260,13 @@ class SearchCompany extends Component {
                                                                 },
                                                             }}
                                                             >
-                                                            <MenuItem value="">
-                                                                <em>None</em>
+                                                            <MenuItem value="<">
+                                                                <em>Less than (<)</em>
                                                             </MenuItem>
-                                                            <MenuItem value={10}>Ten</MenuItem>
-                                                            <MenuItem value={20}>Twenty</MenuItem>
-                                                            <MenuItem value={30}>Thirty</MenuItem>
+                                                            <MenuItem value=">">Greater Than (>)</MenuItem>
+                                                            <MenuItem value="<=">Less Than or Equal To (<=)</MenuItem>
+                                                            <MenuItem value=">=">Greater Than or Equal To (>=)</MenuItem>
+                                                            <MenuItem value="!=">Not Equal To (!=)</MenuItem>
                                                             </Select>
                                                             
                                                         </FormControl>
