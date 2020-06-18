@@ -54,5 +54,8 @@
   background:rgba(166, 172, 175,0.3);
 }
 
+.highcharts-credits{
+  display:none;
+}
 
 

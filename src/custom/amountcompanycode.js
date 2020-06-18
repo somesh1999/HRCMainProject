@@ -7,6 +7,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import { Component } from 'react';
 
+import HighCharts from 'highcharts';
+import HighChartsReact from 'highcharts-react-official';
+import crossfilter from 'crossfilter2';
 const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -70,42 +73,148 @@ const BorderLinearProgress1 = withStyles((theme) => ({
 
 }))(LinearProgress);
 
+
+
+
+
 class AmountCompanyCode extends Component {
 //   const classes = useStyles();
 //   const [spacing] = React.useState(2);
  constructor(props){
     super(props);
-    var json = [{
-        "id" : "1", 
-        "title"   : "USA",
-        "range" : 40,
-        "progresstype" : "BorderLinearProgress"
-    },
-    {
-        "id" : "2", 
-        "title"   : "CAN",
-        "range" : 30,
-        "progresstype" : "BorderLinearProgress"
-    },
-    {
-        "id" : "3", 
-        "title"   : "IND",
-        "range" : 50,
-        "progresstype" : "BorderLinearProgress"
-    },
-    {
-        "id" : "4", 
-        "title"   : "UK",
-        "range" : 100,
-        "progresstype" : "BorderLinearProgress1"
-    }
-    ];
+    // var json = [{
+    //     "id" : "1", 
+    //     "title"   : "USA",
+    //     "range" : 40,
+    //     "progresstype" : "BorderLinearProgress"
+    // },
+    // {
+    //     "id" : "2", 
+    //     "title"   : "CAN",
+    //     "range" : 30,
+    //     "progresstype" : "BorderLinearProgress"
+    // },
+    // {
+    //     "id" : "3", 
+    //     "title"   : "IND",
+    //     "range" : 50,
+    //     "progresstype" : "BorderLinearProgress"
+    // },
+    // {
+    //     "id" : "4", 
+    //     "title"   : "UK",
+    //     "range" : 100,
+    //     "progresstype" : "BorderLinearProgress1"
+    // }
+    // ];
 
     this.state = {
           spacing : 2,
-          json : json
-      }
+          json : "",
+
+          stateflag : false,
+          options:"",
+          PrepareDataForHighCharts:this.PrepareDataForHighCharts.bind(this)
+          
+    }
   } 
+
+
+PrepareDataForHighCharts(groups) {
+                var categories = [];
+                var data = [];
+                var gdata = groups.top(Infinity);
+                gdata.forEach(d => {
+                    categories.push(d.key);
+                    data.push(d.value);
+                });
+
+                return {
+                    categories: categories,
+                    data: data
+                }
+
+}
+
+static getDerivedStateFromProps(nextProps, prevState){
+  var component = this;
+  var comp_data = crossfilter(nextProps.sendJsonData);
+  var totaldim = comp_data.dimension(d => d.business_code);
+  var total_amount = totaldim.group().reduceCount(d => d.actual_open_amount);
+  var tempObject1 = prevState.PrepareDataForHighCharts(total_amount);
+  prevState.options = {
+        chart:{
+          type: 'bar',
+          backgroundColor: "transparent",
+          height:1200,
+          marginLeft : 70,
+          
+        },
+        title: {
+              text: null,
+          },
+          colors : ["#E5E7E9"],
+          legend: {
+              enabled: false,
+          },
+
+          xAxis:{
+           
+             categories : tempObject1.categories, 
+             lineWidth:0,
+             labels: {
+               useHTML : true,
+                  style: {
+                      color: "#fff",
+                      textTransform:"uppercase",
+                      fontFamily: 'Roboto, sans-serif',
+                      fontWeight: 'bold',
+                      fontSize:"14px",
+                      // paddingLeft:"20px"
+
+                    
+                  },
+                  
+                  align : "left",
+              },
+              offset : 50,        
+              title: {
+                  style:{
+                    color:"#fff",
+                    fontWeight:"bold"
+                  }
+              },
+          },
+          yAxis: {
+            visible: false,
+          },
+
+          plotOptions: {
+            series: {
+              pointPadding: 0.12,
+              
+
+              },
+          },
+          series: [
+            {
+              name: 'Total Open Amount',
+              data: tempObject1.data,
+            }
+          ]
+  };
+  
+  
+
+  return null;
+  
+}
+
+
+
+ 
+
+  
 
   render(){ 
       const { classes } = this.props;
@@ -116,8 +225,12 @@ class AmountCompanyCode extends Component {
                         <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" align="left" style={{fontSize:"20px", color:"#A6ACAF ", marginTop: "-15px"}}>
                                 Total Amount by Company Code
                         </Typography>
+                        <div style={{height:136, overflow:"auto", marginTop:10, paddingRight:10}}>
+                        <HighChartsReact highcharts={HighCharts} options={this.state.options}/>
+                        </div>
+                        
 
-                        <Grid container className={classes.root} spacing={2} style={{marginTop: "18px"}}>
+                        {/* <Grid container className={classes.root} spacing={2} style={{marginTop: "18px"}}>
                             <Grid item xs={12}>
                                 <Grid container spacing={this.state.spacing}>
                                 {this.state.json.map((value) => (
@@ -142,7 +255,7 @@ class AmountCompanyCode extends Component {
                                 ))}
                                 </Grid>
                             </Grid>
-                            </Grid>
+                            </Grid> */}
 
                         {/* <BorderLinearProgress variant="determinate" value={40}/>         
                         <BorderLinearProgress variant="determinate" value={30}/>         

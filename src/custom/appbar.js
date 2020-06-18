@@ -124,8 +124,14 @@ class AppBarPage extends Component{
             setOpen : open => this.setState({open}),
 
             responseData:"",
+
+            botData: [],
+            userbotmessage : "",
+
         };
 
+        this.boxRef = React.createRef();
+        
         
         
     }  
@@ -157,10 +163,105 @@ class AppBarPage extends Component{
          
 
             }
+             
+             
              componentDidMount(){
-            this.sendrequest();
-           
-        }
+              this.sendrequest();
+              //this.sendbotrequest();
+              this.createObj("Hi user, How can I help you? ","bot");
+              this.setState({
+                userbotmessage : "",
+              })
+
+              this.scrollToBottom();
+
+            }
+
+            componentDidUpdate(){
+              this.scrollToBottom();
+            }
+
+
+
+        /* Professor Bot */
+
+        createObj = (value, user) => {
+                var obj = {};
+                obj.message = value;
+                obj.user = user;
+                this.state.botData.push(obj);
+            }
+         sendbotrequest(value, user){
+             axios.post(`http://localhost:4000/chat`,
+                {
+                  message: value,
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
+                )
+                .then((response) => {
+                    this.createObj(response.data.message,user);
+                    this.setState({
+                      userbotmessage : "",
+                    })
+                })
+                .catch((err) => {
+                console.log(err);
+                });
+
+         
+
+            }
+
+            
+
+            enterPressed = (event) => {
+              var code = event.keyCode || event.which;
+              // this.setState({
+              //     userbotmessage : event.target.value
+              // })
+                if(code === 13) { 
+                    // this.createObj(event.target.value,"user");
+                    // this.sendbotrequest(event.target.value,"bot");
+                    // this.setState({
+                    //   userbotmessage : "",
+                    // })
+                    this.chatbtn();                    
+                } 
+                
+            }
+
+            chatbtn = () => {
+              this.createObj(this.state.userbotmessage,"user");
+              this.sendbotrequest(this.state.userbotmessage,"bot");
+              this.setState({
+                      userbotmessage : "",
+              })
+            }
+
+            inputFieldChange = (event) => {
+              this.setState({
+                  userbotmessage : event.target.value
+              })
+                // if(code === 13) { 
+                //     this.createObj(event.target.value,"user");
+                //     this.sendbotrequest(event.target.value,"bot");
+                //     this.setState({
+                //       userbotmessage : "",
+                //     })
+                    
+                // } 
+
+              
+                
+            }
+
+             scrollToBottom = () => {
+              this.boxRef.current.scrollTop = this.boxRef.current.scrollHeight
+            }
+            
+
 
      render(){
          const { classes } = this.props;
@@ -171,6 +272,7 @@ class AppBarPage extends Component{
          const handleDrawerClose = () => {
             this.state.setOpen(false);
         };
+        var i =0;
         return(
             <div>
             <AppBar position="static" color="transparent" style={{color: "#fff", boxShadow:"none"}}
@@ -250,7 +352,7 @@ class AppBarPage extends Component{
                     </div>
                        <div className="main_div" style={{position:"relative", height:"100%"}}> 
                         
-                        <div className="chatbody" style={{height:"88%", width:"100%", position:"absolute", overflowY:"auto",overflowX:"hidden", marginTop:20}}>
+                        <div className="chatbody" ref={this.boxRef} style={{height:"88%", width:"100%", position:"absolute", overflowY:"auto",overflowX:"hidden", marginTop:20}}>
                                 
                                 {/* <div className={classes.chatBot}>
                                 <Avatar alt="Remy Sharp" src={FreedaBtn} className={classes.small} />
@@ -260,26 +362,47 @@ class AppBarPage extends Component{
                                 </div> */}
 
                                  <Grid container className={classes.chatBot} spacing={2}>
-                                    <Grid item xs={12}>
-                                        <Grid container>
-                                            <Grid item xs={12} sm={2}>
+                                 {
+                                    this.state.botData.map(row => (
 
-                                                  <Avatar alt="Remy Sharp" src={BotImg} className={classes.small} />
+                                      row.user !== "user" ?
+                                        <Grid item xs={12} key={i=i+1}>
+                                            <Grid container>
+                                                <Grid item xs={12} sm={2}>
+
+                                                      <Avatar alt="Bot" src={BotImg} className={classes.small} />
+                                                </Grid>
+
+                                                <Grid item xs={12} sm={10}>
+                                                
+                                                <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3, paddingRight:20}} align="left">
+                                                  {row.message}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        :
+                                        <Grid item xs={12} key={i=i+1}>
+                                        <Grid container>
+                                            <Grid item xs={12} sm={10}>
+                                                <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3, marginRight:10}} align="right">
+                                               {row.message}
+                                                </Typography>
+                                                  
                                             </Grid>
 
-                                            <Grid item xs={12} sm={10}>
-                                             
-                                            <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3}} align="left">
-                                               Hi John,
-                                               how can I help you
-                                                </Typography>
+                                            <Grid item xs={12} sm={2}>
+                                             <Avatar alt="User" src={AvatarImg} className={classes.small} />
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    </Grid>
+                                        
+                                    ))
+                                  }
+                                  </Grid>
 
 
-
+{/* 
                                       <Grid container className={classes.chatBot} spacing={2}>
                                     <Grid item xs={12}>
                                         <Grid container>
@@ -314,7 +437,7 @@ class AppBarPage extends Component{
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    </Grid>
+                                    </Grid> */}
 
 
                         </div>
@@ -324,9 +447,12 @@ class AppBarPage extends Component{
                                             className = {classes.inputBase}
                                             placeholder="Type here..."
                                             inputProps={{ 'aria-label': 'type here' }}
+                                            onKeyUp={this.enterPressed}                                            
+                                            onChange={this.inputFieldChange.bind(this)}
+                                            value = {this.state.userbotmessage}
                                             endAdornment={
                                                 <InputAdornment position="end">
-                                                <SendIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginTop:"0px", background:"#5DADE2", borderRadius:"50%", position:"relative", left:3}} />
+                                                <SendIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginTop:"0px", background:"#5DADE2", borderRadius:"50%", position:"relative", left:3, cursor:"pointer"}} onClick={this.chatbtn} />
                                                 </InputAdornment>
                                             }
 

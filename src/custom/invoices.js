@@ -292,7 +292,7 @@ class Invoices extends Component {
 
           dense : false,
 
-          rowsPerPage: 12,
+          rowsPerPage: 10,
           setRowsPerPage: rowsPerPage => this.setState({rowsPerPage}),
 
           
@@ -311,6 +311,8 @@ class Invoices extends Component {
                 this.setState({
                     responseData : response.data,
                 })
+                
+                this.props.sendJsonData(response.data); // to send data to parent component (BodyComponent)
             })
             .catch((error) => {
             console.log(error)
@@ -478,7 +480,7 @@ class Invoices extends Component {
                     </Table>
                     </TableContainer>
                     <TablePagination
-                    rowsPerPageOptions={[12, 100, 300]}
+                    rowsPerPageOptions={[10, 25, 100]}
                     component="div"
                     count={this.state.responseData.length}
                     rowsPerPage={this.state.rowsPerPage}

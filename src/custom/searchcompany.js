@@ -125,6 +125,8 @@ class SearchCompany extends Component {
           searchInputval: "",
 
           checked: false,
+
+          totalOpenAmount : ""
       }
 
   }
@@ -138,7 +140,6 @@ class SearchCompany extends Component {
                 }
                 )
                 .then((response) => {
-
                     this.setState({
                         responseData : response.data,
                     });
@@ -150,6 +151,11 @@ class SearchCompany extends Component {
          
 
             }
+
+
+            
+
+
     componentDidMount(){
             this.sendrequest("all");
            
@@ -170,6 +176,7 @@ class SearchCompany extends Component {
                 clearIconDisplay: true,
             })
         }
+         //this.sendadvrequest(this.state.searchInputval);
        }   
 
         searchFieldChange(event){
@@ -177,7 +184,21 @@ class SearchCompany extends Component {
         this.setState({
             searchInputval: inputName
         })
+        if(event.target.value === ""){
+            this.setState({
+                clearIconDisplay: false,
+            })
         }
+        else{
+            this.setState({
+                clearIconDisplay: true,
+            })
+        }
+        this.sendrequest(inputName);
+        //this.sendadvrequest(this.state.searchInputval);
+        }
+
+
        clearSearch = (event) => {
           this.setState({
               searchInputval: "",
@@ -189,7 +210,10 @@ class SearchCompany extends Component {
   render(){ 
      const { classes } = this.props; 
      const handleChange = (event) => {
-        this.state.setAge(event.target.value);
+        this.setState({
+            age: event.target.value,
+        })
+        //console.log(event.target.value);
       };
 
 
@@ -206,6 +230,43 @@ class SearchCompany extends Component {
           }
           
       }
+
+      const typeOpenAmount = (event) =>{
+          this.setState({
+                totalOpenAmount: event.target.value,
+          });
+
+      }
+
+      const setDataSearch = () => {
+        var age;  
+        if(this.state.age === ""){
+            age = "<";
+        }
+        else{
+            age = this.state.age;
+        } 
+        var searchInputvalstr =  "Customers with "+age+" $"+this.state.totalOpenAmount+" Open Amount";
+        this.setState({
+            searchInputval: searchInputvalstr,
+        })
+        
+          handleadvClick();
+          this.sendrequest(searchInputvalstr);
+                if(searchInputvalstr === ""){
+                    this.setState({
+                        clearIconDisplay: false,
+                    })
+                }
+                else{
+                    this.setState({
+                        clearIconDisplay: true,
+                    })
+                }
+      }
+      
+
+     
 
             return (
 
@@ -259,12 +320,14 @@ class SearchCompany extends Component {
                                                                     icon: classes.icon,
                                                                 },
                                                             }}
+                                                           
+                                                            
                                                             >
-                                                            <MenuItem value="<">
-                                                                <em>Less than (<)</em>
+                                                            <MenuItem value="">
+                                                                Less than (&#x3C;)
                                                             </MenuItem>
                                                             <MenuItem value=">">Greater Than (>)</MenuItem>
-                                                            <MenuItem value="<=">Less Than or Equal To (<=)</MenuItem>
+                                                            <MenuItem value="<=">Less Than or Equal To (&#x3C;=)</MenuItem>
                                                             <MenuItem value=">=">Greater Than or Equal To (>=)</MenuItem>
                                                             <MenuItem value="!=">Not Equal To (!=)</MenuItem>
                                                             </Select>
@@ -292,7 +355,7 @@ class SearchCompany extends Component {
                                                                 input: classes.multilineColor
                                                             }
                                                             }}
-                                                            
+                                                            onKeyUp = {typeOpenAmount}
                                                         />
                                                             
                                                         </FormControl>
@@ -304,7 +367,7 @@ class SearchCompany extends Component {
 
                                 <div style={{marginTop:-50, float:"right"}}>
                                 <Button size="small" className={classes.margin}  variant="outlined" style={{borderColor:"#5DADE2", color:"#5DADE2"}} onClick={handleadvClick}>close</Button>
-                                <Button size="small" className={classes.margin}  variant="contained" style={{marginLeft:10, backgroundColor:"#5DADE2", color:"#fff", fontWeight:"bold"}}>search</Button>
+                                <Button size="small" className={classes.margin}  variant="contained" style={{marginLeft:10, backgroundColor:"#5DADE2", color:"#fff", fontWeight:"bold"}} onClick={setDataSearch}>search</Button>
                                 </div>
                                 
 

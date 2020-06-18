@@ -5,6 +5,8 @@ import AmountCompanyCode from '../custom/amountcompanycode.js';
 import SearchCompany from '../custom/searchcompany.js';
 import { withStyles } from '@material-ui/core/styles';
 
+
+
 const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -38,8 +40,18 @@ class BodySection extends Component {
       super(props);
       this.state = {
           spacing : 2,
+
+          jsonData: "", // data from invoice table
       }
+
+      this.fetchJsonData = this.fetchJsonData.bind(this);
   }  
+
+   fetchJsonData(data) {
+      this.setState({
+        jsonData : data,
+      })
+  }
 
   render(){  
 //   const [spacing] = React.useState(2);
@@ -51,14 +63,14 @@ class BodySection extends Component {
         <Grid container spacing={this.state.spacing}>
             <Grid item xs={12} sm={4}>
                   
-                  <AmountCompanyCode />
+                  <AmountCompanyCode sendJsonData={this.state.jsonData}/>
                   <SearchCompany/>
 
             </Grid>
 
              <Grid item xs={12} sm={8}>
                   
-                <Invoices />
+                <Invoices sendJsonData={this.fetchJsonData} />
 
             </Grid>
 
