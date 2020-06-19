@@ -3,13 +3,18 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Grid from '@material-ui/core/Grid';
+// import LinearProgress from '@material-ui/core/LinearProgress';
+// import Grid from '@material-ui/core/Grid';
 import { Component } from 'react';
 
 import HighCharts from 'highcharts';
 import HighChartsReact from 'highcharts-react-official';
 import crossfilter from 'crossfilter2';
+
+import { connect } from 'react-redux';
+import * as myActions from '../actions/myActions';
+import {bindActionCreators} from "redux";
+
 const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -37,41 +42,41 @@ const useStyles = (theme) => ({
 
 });
 
-const BorderLinearProgress = withStyles((theme) => ({
-  root: {
-    height: 18,
-    borderRadius: 0,
-  },
-  colorPrimary: {
-    //backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-    background: "transparent",
-  },
-  bar: {
-    borderRadius: 0,
-    backgroundColor: "#E5E7E9",
-  },
+// const BorderLinearProgress = withStyles((theme) => ({
+//   root: {
+//     height: 18,
+//     borderRadius: 0,
+//   },
+//   colorPrimary: {
+//     //backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+//     background: "transparent",
+//   },
+//   bar: {
+//     borderRadius: 0,
+//     backgroundColor: "#E5E7E9",
+//   },
 
   
 
-}))(LinearProgress);
+// }))(LinearProgress);
 
-const BorderLinearProgress1 = withStyles((theme) => ({
-  root: {
-    height: 18,
-    borderRadius: 0,
-  },
-  colorPrimary: {
-    //backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-    background: "transparent",
-  },
-  bar: {
-    borderRadius: 0,
-    backgroundColor: "#3498DB ",
-  },
+// const BorderLinearProgress1 = withStyles((theme) => ({
+//   root: {
+//     height: 18,
+//     borderRadius: 0,
+//   },
+//   colorPrimary: {
+//     //backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+//     background: "transparent",
+//   },
+//   bar: {
+//     borderRadius: 0,
+//     backgroundColor: "#3498DB ",
+//   },
 
   
 
-}))(LinearProgress);
+// }))(LinearProgress);
 
 
 
@@ -107,14 +112,20 @@ class AmountCompanyCode extends Component {
     //     "progresstype" : "BorderLinearProgress1"
     // }
     // ];
-
+    
     this.state = {
           spacing : 2,
           json : "",
 
           stateflag : false,
           options:"",
-          PrepareDataForHighCharts:this.PrepareDataForHighCharts.bind(this)
+          PrepareDataForHighCharts:this.PrepareDataForHighCharts.bind(this),
+          reduceAdd:this.reduceAdd.bind(this),
+          reduceRemove:this.reduceRemove.bind(this),
+          reduceInitial:this.reduceInitial.bind(this),
+          orderValue:this.orderValue.bind(this),
+
+          SetTotalCustomer : this.SetTotalCustomer.bind(this),
           
     }
   } 
@@ -126,7 +137,7 @@ PrepareDataForHighCharts(groups) {
                 var gdata = groups.top(Infinity);
                 gdata.forEach(d => {
                     categories.push(d.key);
-                    data.push(d.value);
+                    data.push(d.value.totalopenamount);
                 });
 
                 return {
@@ -136,12 +147,79 @@ PrepareDataForHighCharts(groups) {
 
 }
 
+              reduceAdd(p, v) {
+                p.totalopenamount += v.actual_outstanding_amount;
+                p.days_past_duedate += v.days_past_duedate;
+                p.totalcustomer++;
+                if(v.is_open_invoice === 1){
+                  p.openinvoice ++;
+                }
+                return p;
+              };
+
+              reduceRemove(p, v) {
+                p.totalopenamount -= v.actual_outstanding_amount;
+                p.days_past_duedate -= v.days_past_duedate;
+                p.totalcustomer--;
+                if(v.is_open_invoice === 1){
+                  p.openinvoice --;
+                }
+                return p;
+              };
+
+              reduceInitial() {
+                return {totalopenamount:0, totalcustomer: 0, days_past_duedate:0, openinvoice:0};
+              };
+
+              orderValue(p) {
+                return p.totalopenamount;
+              }
+
+
+
+              SetTotalCustomer = (totalcustomer,totalOpenAr,days_past_duedate,openinvoice) =>{
+                this.props.TotalData.SetTotalCustomer(totalcustomer);
+                this.props.TotalData.SetTotalOpenAr(totalOpenAr);
+                this.props.TotalData.SetTotalDaysPast(days_past_duedate);
+                this.props.TotalData.SetTotalOpenInvoice(openinvoice);
+              }
+
 static getDerivedStateFromProps(nextProps, prevState){
-  var component = this;
+  // var component = this;
+  
   var comp_data = crossfilter(nextProps.sendJsonData);
   var totaldim = comp_data.dimension(d => d.business_code);
-  var total_amount = totaldim.group().reduceCount(d => d.actual_open_amount);
+  //var total_amount = totaldim.group().reduceCount(d => d.actual_open_amount);
+  var total_amount = totaldim.group().reduce(prevState.reduceAdd, prevState.reduceRemove, prevState.reduceInitial).order(prevState.orderValue);
+
+  /* get data into state */
+  var totalCustomer = 0;
+  total_amount.all().forEach(d => {
+        totalCustomer += d.value.totalcustomer;
+  });
+  var totalOpenAr = 0;
+  total_amount.all().forEach(d => {
+        totalOpenAr += d.value.totalopenamount;
+  });
+  var days_past_duedate = 0;
+  total_amount.all().forEach(d => {
+        days_past_duedate += d.value.days_past_duedate;
+  });
+
+  var openinvoice = 0;
+  total_amount.all().forEach(d => {
+        openinvoice += d.value.openinvoice;
+  });
+  prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
+  
+  
+  var totaldim1 = comp_data.dimension(d => d.company_id);
+  //var total_amount1 = totaldim1.group().reduceCount(d => d.actual_open_amount);
+  var total_amount1 = totaldim1.group().reduce(prevState.reduceAdd, prevState.reduceRemove, prevState.reduceInitial).order(prevState.orderValue);
+
+  
   var tempObject1 = prevState.PrepareDataForHighCharts(total_amount);
+  var tempObject2 = prevState.PrepareDataForHighCharts(total_amount1);
   prevState.options = {
         chart:{
           type: 'bar',
@@ -192,6 +270,53 @@ static getDerivedStateFromProps(nextProps, prevState){
           plotOptions: {
             series: {
               pointPadding: 0.12,
+
+              point:{
+                                events:{
+                                    click: function(){
+                                        this.select(null,true);
+                                        var selectedPoints = this.series.chart.getSelectedPoints();
+                                        var  filteredPoints = [];
+                                        for (let index = 0; index < selectedPoints.length; index++) {
+                                            filteredPoints.push(selectedPoints[index].category);            
+                                        }// end of for loop
+
+                                        function multivariateFunction(values){
+                                            return function (v){
+                                                return values.indexOf(v) !== -1;
+                                            }
+                                        }
+                                        if(filteredPoints.length > 0){
+                                            totaldim.filterFunction(multivariateFunction(filteredPoints));
+                                        }else totaldim.filterAll();
+
+                                        
+                                        var totalCustomer = 0;
+                                        total_amount1.all().forEach(d => {
+                                              totalCustomer += d.value.totalcustomer;
+                                        });
+                                        var totalOpenAr = 0;
+                                        total_amount1.all().forEach(d => {
+                                              totalOpenAr += d.value.totalopenamount;
+                                        });
+                                        var days_past_duedate = 0;
+                                        total_amount1.all().forEach(d => {
+                                              days_past_duedate += d.value.days_past_duedate;
+                                        });
+
+                                        var openinvoice = 0;
+                                        total_amount1.all().forEach(d => {
+                                              openinvoice += d.value.openinvoice;
+                                        });
+                                        
+                                        prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
+  
+                                        
+
+
+                                    }
+                                }
+                            }
               
 
               },
@@ -200,6 +325,7 @@ static getDerivedStateFromProps(nextProps, prevState){
             {
               name: 'Total Open Amount',
               data: tempObject1.data,
+              
             }
           ]
   };
@@ -267,4 +393,17 @@ static getDerivedStateFromProps(nextProps, prevState){
         );
 }
 }
-export default withStyles(useStyles)(AmountCompanyCode)
+
+const mapStateToProps = (state) => {
+  //console.log(state.totalcustomer);
+  return {
+    totalcustomer: state.totalcustomer 
+  }
+}
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    TotalData : bindActionCreators(myActions,dispatch)
+  }
+}
+// export default withStyles(useStyles)(AmountCompanyCode)
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(useStyles)(AmountCompanyCode))

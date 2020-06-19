@@ -42,9 +42,11 @@ class BodySection extends Component {
           spacing : 2,
 
           jsonData: "", // data from invoice table
+          
       }
 
       this.fetchJsonData = this.fetchJsonData.bind(this);
+      
   }  
 
    fetchJsonData(data) {
@@ -53,6 +55,10 @@ class BodySection extends Component {
       })
   }
 
+  
+  
+  
+ 
   render(){  
 //   const [spacing] = React.useState(2);
 //   const classes = useStyles();
@@ -64,7 +70,7 @@ class BodySection extends Component {
             <Grid item xs={12} sm={4}>
                   
                   <AmountCompanyCode sendJsonData={this.state.jsonData}/>
-                  <SearchCompany/>
+                  <SearchCompany />
 
             </Grid>
 

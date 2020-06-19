@@ -4,12 +4,21 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import {createStore} from 'redux';
+import { Provider } from 'react-redux';
+import myReducer from './reducers/myReducer';
+const myStore = createStore(myReducer);
+
 ReactDOM.render(
-  <React.StrictMode>
-    {/* <CustomIndex myProp = "This is test components" /> */}
-    {/* <Greet name="Somesh" /> */}
+<Provider store={myStore}>
     <App />
-  </React.StrictMode>,
+</Provider>,
+
+  // <React.StrictMode>
+  //   {/* <CustomIndex myProp = "This is test components" /> */}
+  //   {/* <Greet name="Somesh" /> */}
+  //   <App />
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

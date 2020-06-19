@@ -18,6 +18,11 @@ import '../App.css';
 import axios from 'axios';
 
 
+import { connect } from 'react-redux';
+import * as myActions from '../actions/myActions';
+import {bindActionCreators} from "redux";
+
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -308,11 +313,13 @@ class Invoices extends Component {
             })
             .then((response) => {
             //console.log(response.data);
-                this.setState({
-                    responseData : response.data,
-                })
+                // this.setState({
+                //     responseData : response.data,
+                // })
+                this.props.InvoiceData.SetInvoiceData(response.data);
                 
-                this.props.sendJsonData(response.data); // to send data to parent component (BodyComponent)
+                
+                //this.props.sendJsonData(response.data); // to send data to parent component (BodyComponent)
             })
             .catch((error) => {
             console.log(error)
@@ -503,4 +510,17 @@ class Invoices extends Component {
 }
 }
 
-export default withStyles(useStyles)(Invoices)
+const mapStateToProps = (state) => {
+  //console.log(state.totalcustomer);
+  return {
+    invoicedata: state.invoicedata 
+  }
+}
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    InvoiceData : bindActionCreators(myActions,dispatch)
+  }
+}
+
+//export default withStyles(useStyles)(Invoices)
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(useStyles)(Invoices))

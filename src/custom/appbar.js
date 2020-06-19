@@ -133,7 +133,6 @@ class AppBarPage extends Component{
         this.boxRef = React.createRef();
         
         
-        
     }  
 
     goBack() {
@@ -260,7 +259,8 @@ class AppBarPage extends Component{
              scrollToBottom = () => {
               this.boxRef.current.scrollTop = this.boxRef.current.scrollHeight
             }
-            
+
+                      
 
 
      render(){
@@ -325,7 +325,7 @@ class AppBarPage extends Component{
 
                     {this.props.isCustomer === true? 
                         null
-                    : <BodySection/> }
+                    : <BodySection /> }
 
 
                      {/* <StatsSection /> */}
