@@ -76,7 +76,7 @@ class BodySection extends Component {
 
              <Grid item xs={12} sm={8}>
                   
-                <Invoices sendJsonData={this.fetchJsonData} />
+                <Invoices />
 
             </Grid>
 

@@ -335,7 +335,7 @@ class Invoices extends Component {
 
             const handleSelectAllClick = (event) => {
                 if (event.target.checked) {
-                const newSelecteds = this.state.responseData.map((n) => n.acct_doc_header_id);
+                const newSelecteds = this.props.invoicedata.map((n) => n.acct_doc_header_id);
                 this.state.setSelected(newSelecteds);
                 return;
                 }
@@ -376,7 +376,7 @@ class Invoices extends Component {
             const isSelected = (name) => this.state.selected.indexOf(name) !== -1;
 
             //const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-            const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, this.state.responseData.length - this.state.page * this.state.rowsPerPage);
+            const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, this.props.invoicedata.length - this.state.page * this.state.rowsPerPage);
 
             return (
                 <div className={classes.root}>
@@ -395,10 +395,10 @@ class Invoices extends Component {
                         order={this.state.order}
                         orderBy={this.state.orderBy}
                         onSelectAllClick={handleSelectAllClick}
-                        rowCount={this.state.responseData.length}
+                        rowCount={this.props.invoicedata.length}
                         />
                         <TableBody>
-                        {stableSort(Array.from(this.state.responseData), getComparator(this.state.order,this.state.orderBy))
+                        {stableSort(Array.from(this.props.invoicedata), getComparator(this.state.order,this.state.orderBy))
                             .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
                             .map((row, index) => {
                             const isItemSelected = isSelected(row.acct_doc_header_id);
@@ -489,7 +489,7 @@ class Invoices extends Component {
                     <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={this.state.responseData.length}
+                    count={this.props.invoicedata.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.page}
                     onChangePage={handleChangePage}

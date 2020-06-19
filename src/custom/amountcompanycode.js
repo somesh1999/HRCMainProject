@@ -126,6 +126,8 @@ class AmountCompanyCode extends Component {
           orderValue:this.orderValue.bind(this),
 
           SetTotalCustomer : this.SetTotalCustomer.bind(this),
+
+          setFlag:0,
           
     }
   } 
@@ -184,10 +186,14 @@ PrepareDataForHighCharts(groups) {
                 this.props.TotalData.SetTotalOpenInvoice(openinvoice);
               }
 
+
+              componentDidMount(){
+                
+              }
+
 static getDerivedStateFromProps(nextProps, prevState){
   // var component = this;
-  
-  var comp_data = crossfilter(nextProps.sendJsonData);
+  var comp_data = crossfilter(nextProps.invoicedata);
   var totaldim = comp_data.dimension(d => d.business_code);
   //var total_amount = totaldim.group().reduceCount(d => d.actual_open_amount);
   var total_amount = totaldim.group().reduce(prevState.reduceAdd, prevState.reduceRemove, prevState.reduceInitial).order(prevState.orderValue);
@@ -210,7 +216,11 @@ static getDerivedStateFromProps(nextProps, prevState){
   total_amount.all().forEach(d => {
         openinvoice += d.value.openinvoice;
   });
-  prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
+    if(totalCustomer === nextProps.totalcustomer){
+        prevState.setFlag = prevState.setFlag + 1;
+    }
+    if(prevState.setFlag === 1)
+      prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
   
   
   var totaldim1 = comp_data.dimension(d => d.company_id);
@@ -310,7 +320,7 @@ static getDerivedStateFromProps(nextProps, prevState){
                                         });
                                         
                                         prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
-  
+                                        prevState.setFlag = prevState.setFlag + 1;
                                         
 
 
@@ -397,7 +407,8 @@ static getDerivedStateFromProps(nextProps, prevState){
 const mapStateToProps = (state) => {
   //console.log(state.totalcustomer);
   return {
-    totalcustomer: state.totalcustomer 
+    totalcustomer: state.totalcustomer,
+    invoicedata: state.invoicedata 
   }
 }
 const mapDispatchToProps = (dispatch) =>{
