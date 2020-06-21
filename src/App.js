@@ -7,8 +7,10 @@ import AppBar from './custom/appbar.js';
 // import Footer from './custom/footer.js';
 import { withStyles } from '@material-ui/core/styles';
 
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 // import Route from 'react-router-dom/Route';
+import {ROLL_NUMBER} from '../src/utils/constants';
+
 
 const styles = (theme) => ({
   '@global': {
@@ -30,10 +32,11 @@ const styles = (theme) => ({
 function App() {
   return (
     <div className="App">
-    <Router>
-
-      <Route path="/" exact component={AppBar}/>
-      <Route path="/view/customer/:id" exact component={(props) => <AppBar {...props} isCustomer={true} />} />
+    <Router basename={`/${ROLL_NUMBER}`}>
+      <Switch>
+        <Route path="/" exact component={AppBar}/>
+        <Route path="/view/customer/:id" exact component={(props) => <AppBar {...props} isCustomer={true} />} />
+      </Switch>
       {/* <AppBar /> */}
 
     </Router>

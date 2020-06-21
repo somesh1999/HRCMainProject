@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import * as myActions from '../actions/myActions';
 import {bindActionCreators} from "redux";
 
+import axios from 'axios';
+
 const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -193,15 +195,22 @@ PrepareDataForHighCharts(groups) {
 
 static getDerivedStateFromProps(nextProps, prevState){
   // var component = this;
-  var comp_data = crossfilter(nextProps.invoicedata);
+  var comp_data;
+  if(prevState.setFlag === 1)
+    comp_data = crossfilter(nextProps.invoicedata);
+  else
+    comp_data = crossfilter(nextProps.invoicedatasub);
   var totaldim = comp_data.dimension(d => d.business_code);
   //var total_amount = totaldim.group().reduceCount(d => d.actual_open_amount);
   var total_amount = totaldim.group().reduce(prevState.reduceAdd, prevState.reduceRemove, prevState.reduceInitial).order(prevState.orderValue);
-
   /* get data into state */
+  var totalCount = 0;
+  total_amount.all().forEach(d => {
+        totalCount += d.value.totalcustomer;
+  });
   var totalCustomer = 0;
   total_amount.all().forEach(d => {
-        totalCustomer += d.value.totalcustomer;
+        totalCustomer++;
   });
   var totalOpenAr = 0;
   total_amount.all().forEach(d => {
@@ -216,25 +225,27 @@ static getDerivedStateFromProps(nextProps, prevState){
   total_amount.all().forEach(d => {
         openinvoice += d.value.openinvoice;
   });
-    if(totalCustomer === nextProps.totalcustomer){
+
+     if(totalCustomer === nextProps.totalcustomer){
         prevState.setFlag = prevState.setFlag + 1;
-    }
+     }
+     
     if(prevState.setFlag === 1)
-      prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
+      prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCount),openinvoice);
   
   
-  var totaldim1 = comp_data.dimension(d => d.company_id);
+  var totaldim1 = comp_data.dimension(d => d.business_code);
   //var total_amount1 = totaldim1.group().reduceCount(d => d.actual_open_amount);
   var total_amount1 = totaldim1.group().reduce(prevState.reduceAdd, prevState.reduceRemove, prevState.reduceInitial).order(prevState.orderValue);
 
   
   var tempObject1 = prevState.PrepareDataForHighCharts(total_amount);
-  var tempObject2 = prevState.PrepareDataForHighCharts(total_amount1);
+  prevState.PrepareDataForHighCharts(total_amount1);
   prevState.options = {
         chart:{
           type: 'bar',
           backgroundColor: "transparent",
-          height:1200,
+          height:1300,
           marginLeft : 70,
           
         },
@@ -280,7 +291,12 @@ static getDerivedStateFromProps(nextProps, prevState){
           plotOptions: {
             series: {
               pointPadding: 0.12,
-
+              states: {
+                select: {
+                    color: "#3498DB",
+                    borderColor: "#3498DB",
+                }
+              },
               point:{
                                 events:{
                                     click: function(){
@@ -299,12 +315,22 @@ static getDerivedStateFromProps(nextProps, prevState){
                                         if(filteredPoints.length > 0){
                                             totaldim.filterFunction(multivariateFunction(filteredPoints));
                                         }else totaldim.filterAll();
-
                                         
-                                        var totalCustomer = 0;
+                                        var totalCount = 0;
                                         total_amount1.all().forEach(d => {
-                                              totalCustomer += d.value.totalcustomer;
+                                              totalCount += d.value.totalcustomer;
                                         });
+                                        var totalCustomer = 0;
+
+                                        if(filteredPoints.length !== 0){
+                                            totalCustomer = filteredPoints.length;
+                                        }
+                                        else
+                                        {
+                                          total_amount1.all().forEach(d => {
+                                                totalCustomer ++;
+                                          });
+                                        }
                                         var totalOpenAr = 0;
                                         total_amount1.all().forEach(d => {
                                               totalOpenAr += d.value.totalopenamount;
@@ -319,7 +345,26 @@ static getDerivedStateFromProps(nextProps, prevState){
                                               openinvoice += d.value.openinvoice;
                                         });
                                         
-                                        prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCustomer),openinvoice);
+                                        
+
+                                        // Change table data
+                                            axios.post(`http://localhost:8080/1705745/fetchcustomerselected`,
+                                              {},
+                                              {
+                                                  headers: { "Content-Type": "application/json" },
+                                                  params: { type: filteredPoints.toString() },
+                                              }
+                                              )
+                                              .then((response) => {
+                                                  nextProps.InvoiceData.SetInvoiceData(response.data);
+                                              })
+                                              .catch((err) => {
+                                              console.log(err);
+                                              });
+
+                                        //end of change table data
+
+                                        prevState.SetTotalCustomer(totalCustomer,Math.round((Math.abs(Number(totalOpenAr)) / 1.0e+6)),Math.round(days_past_duedate/totalCount),openinvoice);
                                         prevState.setFlag = prevState.setFlag + 1;
                                         
 
@@ -408,12 +453,14 @@ const mapStateToProps = (state) => {
   //console.log(state.totalcustomer);
   return {
     totalcustomer: state.totalcustomer,
-    invoicedata: state.invoicedata 
+    invoicedata: state.invoicedata ,
+    invoicedatasub: state.invoicedatasub 
   }
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
-    TotalData : bindActionCreators(myActions,dispatch)
+    TotalData : bindActionCreators(myActions,dispatch),
+    InvoiceData : bindActionCreators(myActions,dispatch)
   }
 }
 // export default withStyles(useStyles)(AmountCompanyCode)

@@ -162,20 +162,25 @@ class SearchCompany extends Component {
         }
 
     handleKeyPress = (event) => {
-        this.sendrequest(event.target.value);
-        this.setState({
-            searchInputval : event.target.value,
-        })
-        if(event.target.value === ""){
-            this.setState({
-                clearIconDisplay: false,
-            })
+        var code = event.keyCode || event.which;
+        if(code === 13)
+        {
+                this.sendrequest(event.target.value);
+                this.setState({
+                    searchInputval : event.target.value,
+                })
+                if(event.target.value === ""){
+                    this.setState({
+                        clearIconDisplay: false,
+                    })
+                }
+                else{
+                    this.setState({
+                        clearIconDisplay: true,
+                    })
+                }
         }
-        else{
-            this.setState({
-                clearIconDisplay: true,
-            })
-        }
+        
          //this.sendadvrequest(this.state.searchInputval);
        }   
 
@@ -194,8 +199,12 @@ class SearchCompany extends Component {
                 clearIconDisplay: true,
             })
         }
-        this.sendrequest(inputName);
+        //this.sendrequest(inputName);
         //this.sendadvrequest(this.state.searchInputval);
+        }
+
+        searchBtn = () =>{
+            this.sendrequest(this.state.searchInputval);
         }
 
 
@@ -283,14 +292,14 @@ class SearchCompany extends Component {
                                 onChange={this.searchFieldChange.bind(this)}
                                 startAdornment={
                                     <InputAdornment position="start">
-                                    <SearchIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginLeft:"-1", marginTop:"0.8", marginRight:5, background:"#5DADE2", borderRadius:"100%"}} />
+                                    <SearchIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginLeft:"-1", marginTop:"0.8", marginRight:5, background:"#5DADE2", borderRadius:"100%", cursor:"pointer"}} onClick={this.searchBtn} />
                                     </InputAdornment>
                                 }
 
                                 endAdornment={
                                     <InputAdornment position="end" style={{marginLeft:"-20"}}>
                                      {this.state.clearIconDisplay === true? <ClearIcon style={{width:16, height:16, color:"#85C1E9 ", marginRight:5, cursor:"pointer"}} onClick={this.clearSearch}/>: null }
-                                    <AttachMoneyIcon style={{width:20, height:20, color:"#85C1E9 "}} />
+                                    <AttachMoneyIcon style={{width:20, height:20, color:"#85C1E9 ", cursor:"pointer"}} onClick={handleadvClick}/>
                                     <ArrowDropDownIcon style={{width:20, height:20, marginLeft:"-7px", color:"#85C1E9", cursor:"pointer"}} onClick={handleadvClick}/>
                                     </InputAdornment>
                                 }

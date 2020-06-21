@@ -4,6 +4,7 @@ const initState = {
     days_past_duedate:0,
     openinvoice:0,
     invoicedata: [],
+    invoicedatasub:[],
 }
 
 const myReducer = (state=initState, action)=> {
@@ -34,7 +35,13 @@ const myReducer = (state=initState, action)=> {
             return {
                 ...state,
                 invoicedata:action.payload,
+            }
+        case "FETCH_INVOICE_DATA_SUB":
+            return {
+                ...state,
+                invoicedatasub:action.payload,
             }   
+            
         default:
             return state;
     }

@@ -22,3 +22,9 @@ export const SetInvoiceData  = data => ({
     type : "FETCH_INVOICE_DATA",
     payload : data
 })
+
+export const SetInvoiceDataSub  = data => ({
+    type : "FETCH_INVOICE_DATA_SUB",
+    payload : data
+})
+

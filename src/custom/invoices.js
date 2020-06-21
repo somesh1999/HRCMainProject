@@ -94,7 +94,7 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
+            inputProps={{ 'aria-label': 'select all data' }}
             color="primary"
             // borderColor = "primary"
             style= {{borderColor: "#fff", color:"#fff"}}
@@ -166,12 +166,15 @@ const EnhancedTableToolbar = (props) => {
   return (
     <Toolbar
       className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
+        //[classes.highlight]: numSelected > 0,
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
+        // <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        //   {numSelected} selected
+        // </Typography>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div" style={{textAlign:"left", color:"#A6ACAF ", fontSize: "18px"}}>
+          Invoices
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div" style={{textAlign:"left", color:"#A6ACAF ", fontSize: "18px"}}>
@@ -317,6 +320,7 @@ class Invoices extends Component {
                 //     responseData : response.data,
                 // })
                 this.props.InvoiceData.SetInvoiceData(response.data);
+                this.props.InvoiceData.SetInvoiceDataSub(response.data);
                 
                 
                 //this.props.sendJsonData(response.data); // to send data to parent component (BodyComponent)
@@ -487,7 +491,7 @@ class Invoices extends Component {
                     </Table>
                     </TableContainer>
                     <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[5, 10, 20]}
                     component="div"
                     count={this.props.invoicedata.length}
                     rowsPerPage={this.state.rowsPerPage}
@@ -513,7 +517,7 @@ class Invoices extends Component {
 const mapStateToProps = (state) => {
   //console.log(state.totalcustomer);
   return {
-    invoicedata: state.invoicedata 
+    invoicedata: state.invoicedata, 
   }
 }
 const mapDispatchToProps = (dispatch) =>{
