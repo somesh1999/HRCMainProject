@@ -161,7 +161,41 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, selectedrows } = props;
+
+  const data = [];
+  const predicteddata = [];
+  for(var i =0;i< selectedrows.length;i++){
+    data.push(selectedrows[i]);
+  }
+  var output = {
+            "id" : "1705745",
+            "data" : data,
+  }
+  
+  const predictdata = () => {
+     axios.post(`http://localhost:5000/predict`,
+                {},
+                {
+                    headers: { "Content-Type": "application/json" },
+                    params: { data: output },
+                }
+                )
+                .then((response) => {
+                    for(var i=0;i<selectedrows.length;i++){
+                         predicteddata.push(
+                           {
+                             "acct_doc_header_id" : selectedrows[i].acct_doc_header_id,
+                             "predictions" : response.data[i].predictions,
+                           }
+                         )  
+                    }
+                    props.sendPredictedData(predicteddata);
+                })
+                .catch((err) => {
+                console.log(err);
+                });
+  }
 
   return (
     <Toolbar
@@ -184,7 +218,7 @@ const EnhancedTableToolbar = (props) => {
         
       )}
     
-     <Button variant="contained" style={{color:"#fff", fontWeight:"bold", background:"#909497", fontSize:"13px" }}>PREDICT</Button>
+     <Button variant="contained" style={{color:"#fff", fontWeight:"bold", background:"#909497", fontSize:"13px" }} onClick={predictdata}>PREDICT</Button>
     </Toolbar>
   );
 };
@@ -303,7 +337,11 @@ class Invoices extends Component {
           rowsPerPage: 10,
           setRowsPerPage: rowsPerPage => this.setState({rowsPerPage}),
 
-          
+
+          selectedrows : [],
+          setSelectedrows: selectedrows => this.setState({selectedrows}),
+
+          predictedData : [],
 
       };
         
@@ -341,15 +379,16 @@ class Invoices extends Component {
                 if (event.target.checked) {
                 const newSelecteds = this.props.invoicedata.map((n) => n.acct_doc_header_id);
                 this.state.setSelected(newSelecteds);
+                this.state.setSelectedrows(this.props.invoicedata);
                 return;
                 }
                 this.state.setSelected([]);
             };
 
-            const handleClick = (event, name) => {
+            const handleClick = (event, name, row) => {
                 const selectedIndex = this.state.selected.indexOf(name);
                 let newSelected = [];
-
+                let newSelectedrow = [];
                 if (selectedIndex === -1) {
                 newSelected = newSelected.concat(this.state.selected, name);
                 } else if (selectedIndex === 0) {
@@ -363,6 +402,20 @@ class Invoices extends Component {
                 );
                 }
 
+                 if (selectedIndex === -1) {
+                  newSelectedrow = newSelectedrow.concat(this.state.selectedrows, row);
+                } else if (selectedIndex === 0) {
+                newSelectedrow = newSelectedrow.concat(this.state.selectedrows.slice(1));
+                } else if (selectedIndex === this.state.selectedrows.length - 1) {
+                newSelectedrow = newSelectedrow.concat(this.state.selectedrows.slice(0, -1));
+                } else if (selectedIndex > 0) {
+                newSelectedrow = newSelectedrow.concat(
+                    this.state.selectedrows.slice(0, selectedIndex),
+                    this.state.selectedrows.slice(selectedIndex + 1),
+                );
+                }
+
+                this.state.setSelectedrows(newSelectedrow);
                 this.state.setSelected(newSelected);
             };
 
@@ -382,10 +435,17 @@ class Invoices extends Component {
             //const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
             const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, this.props.invoicedata.length - this.state.page * this.state.rowsPerPage);
 
+            const receivePredictedData = (data) => {
+                this.setState({
+                  predictedData : data,
+                })
+                
+            }
+
             return (
                 <div className={classes.root}>
                 <Paper className={classes.paper} style={{borderRadius: "0px", background: "rgba(133, 146, 158, 0.3 )"}}>
-                    <EnhancedTableToolbar numSelected={this.state.selected.length} />
+                    <EnhancedTableToolbar numSelected={this.state.selected.length} selectedrows={this.state.selectedrows} sendPredictedData={receivePredictedData} />
                     <TableContainer style={{ overflow: 'auto', height: '390px' }}>
                     <Table
                         className={classes.table}
@@ -407,11 +467,18 @@ class Invoices extends Component {
                             .map((row, index) => {
                             const isItemSelected = isSelected(row.acct_doc_header_id);
                             const labelId = `enhanced-table-checkbox-${index}`;
-
+                            
+                            var predictedamount = "";
+                            for(var i =0;i<this.state.predictedData.length;i++){
+                              if(row.acct_doc_header_id === this.state.predictedData[i].acct_doc_header_id){
+                                 predictedamount = this.state.predictedData[i].predictions; 
+                              }
+                            }
+                           
                             return (
                                 <TableRow
                                 hover
-                                onClick={(event) => handleClick(event, row.acct_doc_header_id)}
+                                onClick={(event) => handleClick(event, row.acct_doc_header_id,row)}
                                 role="checkbox"
                                 aria-checked={isItemSelected}
                                 tabIndex={-1}
@@ -475,8 +542,10 @@ class Invoices extends Component {
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.invoice_currency}</TableCell>
                                     <TableCell align="right" className={classes.tablecell}>
+                                    
                                     </TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
+                                {predictedamount}
                                     </TableCell>
                                 </TableRow>
                                 

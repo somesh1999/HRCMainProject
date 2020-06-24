@@ -255,7 +255,7 @@ class SearchCompany extends Component {
         else{
             age = this.state.age;
         } 
-        var searchInputvalstr =  "Customers with "+age+" $"+this.state.totalOpenAmount+" Open Amount";
+        var searchInputvalstr =  "Customers with Open Amount "+age+" $"+this.state.totalOpenAmount+"";
         this.setState({
             searchInputval: searchInputvalstr,
         })
