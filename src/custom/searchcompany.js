@@ -290,22 +290,23 @@ class SearchCompany extends Component {
                                 onKeyUp={this.handleKeyPress}
                                 value = {this.state.searchInputval}
                                 onChange={this.searchFieldChange.bind(this)}
+                                autoid="search-text-field"
                                 startAdornment={
                                     <InputAdornment position="start">
-                                    <SearchIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginLeft:"-1", marginTop:"0.8", marginRight:5, background:"#5DADE2", borderRadius:"100%", cursor:"pointer"}} onClick={this.searchBtn} />
+                                    <SearchIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginLeft:"-1", marginTop:"0.8", marginRight:5, background:"#5DADE2", borderRadius:"100%", cursor:"pointer"}} onClick={this.searchBtn} autoid="search-icon"/>
                                     </InputAdornment>
                                 }
 
                                 endAdornment={
                                     <InputAdornment position="end" style={{marginLeft:"-20"}}>
-                                     {this.state.clearIconDisplay === true? <ClearIcon style={{width:16, height:16, color:"#85C1E9 ", marginRight:5, cursor:"pointer"}} onClick={this.clearSearch}/>: null }
+                                     {this.state.clearIconDisplay === true? <ClearIcon style={{width:16, height:16, color:"#85C1E9 ", marginRight:5, cursor:"pointer"}} onClick={this.clearSearch} autoid="search-close-icon"/>: null }
                                     <AttachMoneyIcon style={{width:20, height:20, color:"#85C1E9 ", cursor:"pointer"}} onClick={handleadvClick}/>
                                     <ArrowDropDownIcon style={{width:20, height:20, marginLeft:"-7px", color:"#85C1E9", cursor:"pointer"}} onClick={handleadvClick}/>
                                     </InputAdornment>
                                 }
                             />
                             <Fade in={this.state.checked}>
-                            <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer} style={this.state.checked ? {display:"block"}: {display:"none"}}>
+                            <Container maxWidth="sm" align="left" className={classes.AdvancedSearchContainer} style={this.state.checked ? {display:"block"}: {display:"none"}} autoid="advance-search-drop-down">
                             <Typography variant="h6" component="h6" style={{fontSize:"14px", color:"rgb(166, 172, 175)", marginTop:25, marginLeft:-5}}>Advanced Search</Typography>
                                 <Grid container className={classes.root} spacing={2} style={{marginTop:-5}}>
                                         <Grid item xs={12}>
@@ -365,6 +366,7 @@ class SearchCompany extends Component {
                                                             }
                                                             }}
                                                             onKeyUp = {typeOpenAmount}
+                                                            autoid="advance-search-open-amount"
                                                         />
                                                             
                                                         </FormControl>
@@ -375,8 +377,8 @@ class SearchCompany extends Component {
                                 </Grid>
 
                                 <div style={{marginTop:-50, float:"right"}}>
-                                <Button size="small" className={classes.margin}  variant="outlined" style={{borderColor:"#5DADE2", color:"#5DADE2"}} onClick={handleadvClick}>close</Button>
-                                <Button size="small" className={classes.margin}  variant="contained" style={{marginLeft:10, backgroundColor:"#5DADE2", color:"#fff", fontWeight:"bold"}} onClick={setDataSearch}>search</Button>
+                                <Button size="small" className={classes.margin}  variant="outlined" style={{borderColor:"#5DADE2", color:"#5DADE2"}} onClick={handleadvClick} autoid="advance-search-cancel">close</Button>
+                                <Button size="small" className={classes.margin}  variant="contained" style={{marginLeft:10, backgroundColor:"#5DADE2", color:"#fff", fontWeight:"bold"}} onClick={setDataSearch} autoid="advance-search-button">search</Button>
                                 </div>
                                 
 
@@ -384,7 +386,7 @@ class SearchCompany extends Component {
                             </Container>
                             </Fade>
 
-                                <Table className={classes.table} size="small" aria-label="simple table">
+                                <Table className={classes.table} size="small" aria-label="simple table" autoid="advance-search-table">
                                     <TableHead>
                                     <TableRow>
                                         <TableCell className={classes.tablecell}>Customer Name</TableCell>

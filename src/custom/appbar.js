@@ -283,15 +283,15 @@ class AppBarPage extends Component{
             >
                 <Toolbar variant="dense" style={{paddingTop:5}}>
                 {this.props.isCustomer === true? 
-                 <ArrowBackIcon onClick={this.goBack} style={{cursor:"pointer"}}/>
+                 <ArrowBackIcon onClick={this.goBack} style={{cursor:"pointer"}} autoid="navigation-back-button"/>
                 : <img alt="logo" src={Logo} style={{width:30}} /> }
 
                {this.props.isCustomer === true? 
                <span style={{flex:1, marginLeft:20}}>
-                <Typography variant="h6" align="left" style={{fontSize:"22px", textTransform:"capitalize"}}>
+                <Typography variant="h6" align="left" style={{fontSize:"22px", textTransform:"capitalize"}} autoid="customer-name">
                     {this.state.responseData.name_customer}
                 </Typography>
-                <Typography variant="subtitle2" align="left" style={{position:"absolute", marginTop:-7, color:"rgb(166, 172, 175)"}}>
+                <Typography variant="subtitle2" align="left" style={{position:"absolute", marginTop:-7, color:"rgb(166, 172, 175)"}} autoid="customer-number">
                     {this.props.match.params.id}
                 </Typography>
                 </span>
@@ -306,7 +306,7 @@ class AppBarPage extends Component{
                     </Typography>
                     
                     <Button color="inherit" size="small" style={{backgroundColor: "#FF8C00", borderRadius:"20px", paddingLeft:8, fontSize:12}}
-                    endIcon={<img src={FreedaBtn} alt="Freeda Btn" style={{width:25}}/>}
+                    endIcon={<img src={FreedaBtn} alt="Freeda Btn" style={{width:25}} autoid="professor-button"/>}
                     onClick={handleDrawerOpen}
                     //className={clsx(this.state.open && classes.hide)}
                     >Professor</Button>
@@ -348,7 +348,7 @@ class AppBarPage extends Component{
                         Professor
                         </Typography>
 
-                        <ClearIcon style={{width:20, height:20, color:"rgb(166, 172, 175)",  marginRight:5, cursor:"pointer", paddingTop:"10px"}} onClick={handleDrawerClose}/>
+                        <ClearIcon style={{width:20, height:20, color:"rgb(166, 172, 175)",  marginRight:5, cursor:"pointer", paddingTop:"10px"}} onClick={handleDrawerClose} autoid="professor-close-button"/>
                     </div>
                        <div className="main_div" style={{position:"relative", height:"100%"}}> 
                         
@@ -375,7 +375,7 @@ class AppBarPage extends Component{
 
                                                 <Grid item xs={12} sm={10}>
                                                 
-                                                <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3, paddingRight:20}} align="left">
+                                                <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3, paddingRight:20}} align="left" autoid="ai">
                                                   {row.message}
                                                     </Typography>
                                                 </Grid>
@@ -385,7 +385,7 @@ class AppBarPage extends Component{
                                         <Grid item xs={12} key={i=i+1}>
                                         <Grid container>
                                             <Grid item xs={12} sm={10}>
-                                                <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3, marginRight:10}} align="right">
+                                                <Typography variant="h5" component="h6" style={{fontSize:13, color:"#fff", marginTop:3, marginRight:10}} align="right" autoid="human">
                                                {row.message}
                                                 </Typography>
                                                   
@@ -450,9 +450,10 @@ class AppBarPage extends Component{
                                             onKeyUp={this.enterPressed}                                            
                                             onChange={this.inputFieldChange.bind(this)}
                                             value = {this.state.userbotmessage}
+                                            autoid="professor-input-box"
                                             endAdornment={
                                                 <InputAdornment position="end">
-                                                <SendIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginTop:"0px", background:"#5DADE2", borderRadius:"50%", position:"relative", left:3, cursor:"pointer"}} onClick={this.chatbtn} />
+                                                <SendIcon style={{ width:20, height:20, padding:"5.2px 5.2px 5.2px 5.2px", marginTop:"0px", background:"#5DADE2", borderRadius:"50%", position:"relative", left:3, cursor:"pointer"}} onClick={this.chatbtn} autoid="professor-send-button" />
                                                 </InputAdornment>
                                             }
 

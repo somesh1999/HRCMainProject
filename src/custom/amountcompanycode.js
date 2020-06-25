@@ -300,7 +300,7 @@ static getDerivedStateFromProps(nextProps, prevState){
               point:{
                                 events:{
                                     click: function(){
-                                        this.select(null,true);
+                                        this.select(null,false);
                                         var selectedPoints = this.series.chart.getSelectedPoints();
                                         var  filteredPoints = [];
                                         for (let index = 0; index < selectedPoints.length; index++) {
@@ -401,7 +401,7 @@ static getDerivedStateFromProps(nextProps, prevState){
       const { classes } = this.props;
         return (
 
-                <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none", borderRadius:"0px", paddingLeft:"5px"}}>
+                <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none", borderRadius:"0px", paddingLeft:"5px"}} autoid="companycode-chart">
                     <CardContent className={classes.card}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" align="left" style={{fontSize:"20px", color:"#A6ACAF ", marginTop: "-15px"}}>
                                 Total Amount by Company Code

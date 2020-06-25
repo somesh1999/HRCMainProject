@@ -490,8 +490,8 @@ class CustomerInvoices extends Component {
                     })}
                   >   
                       <Typography className={classes.title} variant="h6" id="tableTitle" component="div" style={{textAlign:"left", marginTop:20}}>
-                        <Button variant="contained" disabled={buttonDisabled} style={ buttonDisabled ? {marginLeft:"-12px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"} : {marginLeft:"-12px", color:"rgb(93, 173, 226) ", border:"1px solid rgb(93, 173, 226) ", fontSize:"12px", backgroundColor:"#1B1F38"} } onClick={openModal}>Modify</Button>
-                        <Button variant="contained" disabled={buttonDisabledExport} style={ buttonDisabledExport ? {marginLeft:"10px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"} : {marginLeft:"10px", color:"rgb(93, 173, 226) ", border:"1px solid rgb(93, 173, 226) ", fontSize:"12px", backgroundColor:"#1B1F38"} } ><CSVLink data={this.state.selectedArrayCsv} style={{textDecoration:"none", color:"inherit"}}>Export</CSVLink></Button>
+                        <Button variant="contained" disabled={buttonDisabled} style={ buttonDisabled ? {marginLeft:"-12px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"} : {marginLeft:"-12px", color:"rgb(93, 173, 226) ", border:"1px solid rgb(93, 173, 226) ", fontSize:"12px", backgroundColor:"#1B1F38"} } onClick={openModal} autoid="modify-button">Modify</Button>
+                        <Button variant="contained" disabled={buttonDisabledExport} style={ buttonDisabledExport ? {marginLeft:"10px", color:"#D0D3D4 ", border:"1px solid #D0D3D4 ", fontSize:"12px", backgroundColor:"#1B1F38"} : {marginLeft:"10px", color:"rgb(93, 173, 226) ", border:"1px solid rgb(93, 173, 226) ", fontSize:"12px", backgroundColor:"#1B1F38"}} autoid="export-button" ><CSVLink data={this.state.selectedArrayCsv} filename={"170545_exportedData.csv"} style={{textDecoration:"none", color:"inherit"}}>Export</CSVLink></Button>
 
                     </Typography>
 
@@ -529,7 +529,7 @@ class CustomerInvoices extends Component {
                                                                           }}
                                                                           value={this.state.indopenamount}
                                                                           onChange={handlechange1.bind(this)}
-                                                                          
+                                                                          autoid="open-amount-input"
                                                                       />
                                                                           
                                                                       </FormControl>
@@ -559,6 +559,7 @@ class CustomerInvoices extends Component {
                                                                           }}
                                                                           value={this.state.inddoctype}
                                                                           onChange={handlechange2.bind(this)}
+                                                                          autoid="doctype-input"
                                                                       />
                                                                           
                                                                       </FormControl>
@@ -570,10 +571,10 @@ class CustomerInvoices extends Component {
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions style={{background: "#1B1F38", marginTop:-10, paddingBottom:15, paddingRight:20}}>
-                        <Button className={classes.btn_header} onClick={handleClose} variant="contained" >
+                        <Button className={classes.btn_header} onClick={handleClose} variant="contained" autoid="modify-cancel-button">
                           Cancel
                         </Button>
-                        <Button className={classes.btn_header} onClick={modifydetails} variant="contained">
+                        <Button className={classes.btn_header} onClick={modifydetails} variant="contained" autoid="modify-save-button">
                           Save
                         </Button>
                       </DialogActions>
@@ -587,7 +588,7 @@ class CustomerInvoices extends Component {
                                                           <Grid item xs={12} sm={4}>
                                                               </Grid>
                                                               <Grid item xs={12} sm={2}>
-                                                                  <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left">${total_open_amount}K</Typography>
+                                                                  <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left" autoid="total-open-amount-customer">${total_open_amount}K</Typography>
                                                                   <Typography variant="subtitle2" style={{color:"rgb(166, 172, 175)", fontSize:"13px", whiteSpace: "nowrap"}} align="left">Total Open Amount</Typography>
                                                               </Grid>
 
@@ -597,7 +598,7 @@ class CustomerInvoices extends Component {
                                                               </Grid>
 
                                                               <Grid item xs={12} sm={2}>
-                                                                  <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left">{total_open_invoice}</Typography>
+                                                                  <Typography variant="h6" component="h6" style={{color:"#fff", fontSize:"18px"}} align="left" autoid="total-open-invoices-customer">{total_open_invoice}</Typography>
                                                                   <Typography variant="subtitle2" style={{color:"rgb(166, 172, 175)", fontSize:"13px", whiteSpace: "nowrap"}} align="left">Total Open Invoices</Typography>
                                                               </Grid>
 
@@ -634,6 +635,7 @@ class CustomerInvoices extends Component {
                         aria-labelledby="tableTitle"
                         size={this.state.dense ? 'small' : 'medium'}
                         aria-label="enhanced table"
+                        autoid="invoice-table-customer"
                     >
                          <TableHead>
                           <TableRow>
@@ -773,6 +775,10 @@ class CustomerInvoices extends Component {
                             select: classes.tablePaginationSelect,
                             actions: classes.tablePaginationActions,
                         }}
+
+                    autoid="pagination-button-next-customer"
+                    autoid="pagination-button-previous-customer"
+                    autoid="invoice-table-pagination-customer"
                     
                     />
                     

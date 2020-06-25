@@ -87,7 +87,7 @@ render(){
             <Grid key={1} item xs={12} sm={3}>
               {/* <Paper className={classes.paper} /> */}
 
-                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}}>
+                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}} autoid="total-customers-text-collector">
                         <CardContent className={classes.card}>
                           <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" style={{fontSize:"20px", color:"#A6ACAF "}}>
                             Total Customer
@@ -104,7 +104,7 @@ render(){
             <Grid key={2} item xs={12} sm={3}>
               {/* <Paper className={classes.paper} /> */}
 
-                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}}>
+                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}} autoid="total-open-ar-text-collector">
                         <CardContent className={classes.card}>
                           <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" style={{fontSize:"20px", color:"#A6ACAF "}}>
                             Total Open AR
@@ -122,7 +122,7 @@ render(){
             <Grid key={3} item xs={12} sm={3}>
               {/* <Paper className={classes.paper} /> */}
 
-                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}}>
+                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}} autoid="average-days-delay-text-collector">
                         <CardContent className={classes.card}>
                           <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" style={{fontSize:"20px", color:"#A6ACAF "}}>
                             Average Days Delay
@@ -140,7 +140,7 @@ render(){
             <Grid key={4} item xs={12} sm={3}>
               {/* <Paper className={classes.paper} /> */}
 
-                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}}>
+                      <Card className={classes.root} style={{background: "rgba(133, 146, 158, 0.3 )", border:"none", boxShadow:"none"}} autoid="total-open-invoice-text-collector">
                         <CardContent className={classes.card}>
                           <Typography className={classes.title} color="textSecondary" gutterBottom variant="h5" component="h2" style={{fontSize:"20px", color:"#A6ACAF "}}>
                             Total Open Invoices

@@ -174,7 +174,7 @@ const EnhancedTableToolbar = (props) => {
   }
   
   const predictdata = () => {
-     axios.post(`http://localhost:5000/predict`,
+     axios.post(`http://localhost:5000/predict?`,
                 {},
                 {
                     headers: { "Content-Type": "application/json" },
@@ -218,7 +218,7 @@ const EnhancedTableToolbar = (props) => {
         
       )}
     
-     <Button variant="contained" style={{color:"#fff", fontWeight:"bold", background:"#909497", fontSize:"13px" }} onClick={predictdata}>PREDICT</Button>
+     <Button variant="contained" style={{color:"#fff", fontWeight:"bold", background:"#909497", fontSize:"13px" }} onClick={predictdata} autoid="predict-button">PREDICT</Button>
     </Toolbar>
   );
 };
@@ -452,6 +452,7 @@ class Invoices extends Component {
                         aria-labelledby="tableTitle"
                         size={this.state.dense ? 'small' : 'medium'}
                         aria-label="enhanced table"
+                        autoid="invoice-table-collector"
                     >
                         <EnhancedTableHead
                         classes={classes}
@@ -469,9 +470,16 @@ class Invoices extends Component {
                             const labelId = `enhanced-table-checkbox-${index}`;
                             
                             var predictedamount = "";
+                            var predictedtype="";
                             for(var i =0;i<this.state.predictedData.length;i++){
                               if(row.acct_doc_header_id === this.state.predictedData[i].acct_doc_header_id){
                                  predictedamount = this.state.predictedData[i].predictions; 
+                                 if(predictedamount >= row.actual_outstanding_amount){
+                                  predictedtype = "Fully Paid";
+                                 }
+                                 else{
+                                  predictedtype = "Partially Paid";
+                                 }
                               }
                             }
                            
@@ -542,7 +550,7 @@ class Invoices extends Component {
                                 <TableCell align="right" className={classes.tablecell}>
                                     {row.invoice_currency}</TableCell>
                                     <TableCell align="right" className={classes.tablecell}>
-                                    
+                                    {predictedtype}
                                     </TableCell>
                                 <TableCell align="right" className={classes.tablecell}>
                                 {predictedamount}
@@ -574,6 +582,9 @@ class Invoices extends Component {
                             select: classes.tablePaginationSelect,
                             actions: classes.tablePaginationActions,
                         }}
+                    autoid="pagination-button-next-collector"
+                    autoid="pagination-button-previous-collector"
+                    autoid="invoice-table-pagination-collector"
                     
                     />
                 </Paper>
